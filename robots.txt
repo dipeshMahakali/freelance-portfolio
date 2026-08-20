@@ -1,0 +1,6 @@
+# Robots.txt for Dipesh Patel - Freelance Web Designer & Developer
+User-agent: *
+Allow: /
+
+# Sitemap Location
+Sitemap: https://dipeshpatel.dev/sitemap.xml
