@@ -34,7 +34,7 @@ function loadEnv($envPath) {
 $env = loadEnv(__DIR__ . '/../.env');
 
 // Fallback environment values
-$recipientEmail = $env['RECIPIENT_EMAIL'] ?? $env['NOTIFY_EMAIL'] ?? $env['SMTP_USER'] ?? 'hello@dipeshpatel.dev';
+$recipientEmail = $env['RECIPIENT_EMAIL'] ?? $env['NOTIFY_EMAIL'] ?? $env['SMTP_USER'] ?? 'dipesh.patel1902@gmail.com';
 $fromEmail      = $env['FROM_EMAIL'] ?? $env['SMTP_USER'] ?? 'no-reply@dipeshpatel.dev';
 $smtpHost       = $env['SMTP_HOST'] ?? 'localhost';
 $smtpPort       = $env['SMTP_PORT'] ?? '587';

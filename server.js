@@ -25,7 +25,7 @@ function loadEnv() {
 loadEnv();
 
 const PORT = process.env.PORT || 8085;
-const RECIPIENT_EMAIL = process.env.RECIPIENT_EMAIL || process.env.SMTP_USER || 'hello@dipeshpatel.dev';
+const RECIPIENT_EMAIL = process.env.RECIPIENT_EMAIL || process.env.SMTP_USER || 'dipesh.patel1902@gmail.com';
 
 // MIME types table
 const MIME_TYPES = {

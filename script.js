@@ -382,13 +382,13 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         // Form Submission Trigger
         const formData = {
-          projectType: document.querySelector('#step1 .option-card.selected')?.innerText?.trim() || 'New Business Website',
-          budget: document.querySelector('#step2 .option-card.selected')?.innerText?.trim() || 'Not specified',
-          timeline: document.querySelector('#step3 .option-card.selected')?.innerText?.trim() || 'Flexible',
-          businessDetails: document.querySelector('#enquiryForm textarea')?.value || '',
-          clientName: document.querySelector('#enquiryForm input[type="text"]')?.value || '',
-          clientEmail: document.querySelector('#enquiryForm input[type="email"]')?.value || '',
-          clientPhone: document.querySelector('#enquiryForm input[type="tel"]')?.value || ''
+          projectType: document.querySelector('.enquiry-step[data-step="1"] .option-card.selected')?.innerText?.trim() || 'New Business Website',
+          budget: document.querySelector('.enquiry-step[data-step="2"] .option-card.selected')?.innerText?.trim() || 'Not specified',
+          timeline: document.querySelector('.enquiry-step[data-step="3"] .option-card.selected')?.innerText?.trim() || 'Flexible',
+          businessDetails: document.querySelector('#businessDetailsInput')?.value || '',
+          clientName: document.querySelector('#clientNameInput')?.value || '',
+          clientEmail: document.querySelector('#clientEmailInput')?.value || '',
+          clientPhone: document.querySelector('#clientPhoneInput')?.value || ''
         };
 
         // Submit to Node / Vercel Serverless / PHP backend email API

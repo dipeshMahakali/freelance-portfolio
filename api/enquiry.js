@@ -45,7 +45,7 @@ module.exports = async (req, res) => {
     const smtpPort = parseInt(process.env.SMTP_PORT || '587');
     const smtpUser = process.env.SMTP_USER || 'dipeshmahakali@gmail.com';
     const smtpPass = process.env.SMTP_PASS || 'hoozhrsseuwzhipu';
-    const recipientEmail = process.env.RECIPIENT_EMAIL || process.env.NOTIFY_EMAIL || smtpUser;
+    const recipientEmail = process.env.RECIPIENT_EMAIL || process.env.NOTIFY_EMAIL || 'dipesh.patel1902@gmail.com';
     const fromEmail = process.env.FROM_EMAIL || smtpUser;
 
     let emailSent = false;
