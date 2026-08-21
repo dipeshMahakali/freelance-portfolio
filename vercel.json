@@ -1,5 +1,23 @@
 {
-  "rewrites": [
-    { "source": "/api/enquiry", "destination": "/api/enquiry.js" }
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/enquiry.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "!(api)/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/enquiry",
+      "dest": "/api/enquiry.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
   ]
 }
