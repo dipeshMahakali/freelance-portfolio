@@ -153,59 +153,59 @@ document.addEventListener('DOMContentLoaded', () => {
   const caseStudyData = {
     'vk-shipping': {
       title: 'V K Shipping Services',
-      subhead: 'Building trust for a growing import/export business.',
+      subhead: 'Building trust for a growing shipping & freight business.',
       industry: 'Corporate Website · Logistics',
       heroImage: 'assets/vk-shipping.png',
-      overview: 'V K Shipping is a global maritime freight and cargo forwarding logistics business. They needed a high-trust, corporate digital presence to present ocean freight, container tracking, and customs clearance capabilities to international B2B clients.',
-      challenge: 'Their existing website lacked visual authority and hierarchy. Shippers and importers require immediate confidence in cargo handling capacity, container tracking, and regulatory compliance before submitting quote requests.',
-      strategy: 'We repositioned V K Shipping as an elite, ultra-reliable logistics partner. We streamlined information architecture into clear service categories (Ocean Freight, Air Cargo, Customs, Tracking) and added prominent call-to-action triggers across key landing pages.',
-      ux: 'Structured decision-focused user flows that guide potential B2B shippers from service discovery to requesting a custom freight rate quote in under 3 clicks.',
-      design: 'Deep oceanic navy typography, sharp maritime imagery, bold statistics grid, and structured whitespace to project institutional authority and corporate stability.',
-      dev: 'Engineered with lightweight semantic HTML5 and vanilla CSS/JS ensuring sub-second load times globally, accessible headings, and seamless mobile responsiveness.',
-      responsive: 'Designed mobile-first with sticky quote CTA triggers and touch-optimized shipment tracking inputs.',
-      result: 'The redesigned platform established instant credibility for V K Shipping, resulting in a 40% increase in inbound corporate B2B freight quote requests within 60 days.'
+      overview: 'V K Shipping is an import/export and cargo logistics business. They needed a professional website to present ocean freight, customs clearance, and shipping services clearly to prospective business clients.',
+      challenge: 'Their existing online presence lacked clear visual structure and detailed service breakdowns, making it difficult for international clients to assess their capabilities.',
+      strategy: 'We reorganized the website into clear service categories (Ocean Freight, Air Cargo, Customs Clearance, Tracking) with prominent inquiry contact options on every page.',
+      ux: 'Structured straightforward page layouts that allow visitors to quickly find specific shipping services and submit quote request forms.',
+      design: 'Clean marine navy typography, structured service cards, and ample whitespace to convey reliability and professionalism.',
+      dev: 'Engineered with lightweight semantic HTML5 and CSS/JS ensuring fast load times, accessible headings, and smooth mobile responsiveness.',
+      responsive: 'Designed mobile-first with sticky inquiry triggers and touch-optimized navigation buttons.',
+      result: 'Delivered a polished corporate website that presents the company shipping services clearly and builds confidence with international business prospects.'
     },
     'maa-bamleshwari': {
       title: 'Maa Bamleshwari Temple',
-      subhead: 'Connecting pilgrims with a sacred cultural destination.',
+      subhead: 'Connecting pilgrims with essential temple information.',
       industry: 'Cultural / Religious Website',
       heroImage: 'assets/maa-bamleshwari.png',
-      overview: 'Maa Bamleshwari Temple in Dongargarh is a historic hill shrine visited by millions of pilgrims annually. The goal was to build a modern, serene digital experience providing essential visitor information, pooja timings, ropeway access details, and live festival updates.',
-      challenge: 'Devotees and travelers frequently struggled to find verified information regarding temple opening hours, Navratri festival schedules, and hill ropeway tickets, leading to heavy phone inquiries.',
-      strategy: 'Designed an elegant, accessible digital portal that combines reverence with extreme functional clarity, providing quick access to pooja schedules, accommodation guides, and festival news.',
-      ux: 'Organized information into clear pilgrim priorities: Pooja Timings, Festival Calendar, How to Reach, and Donation/Services.',
-      design: 'Adorned with warm gold and ivory tones, delicate cultural motifs, high-resolution shrine photography, and respectful typography reflecting spiritual heritage.',
-      dev: 'Optimized for high-concurrency peak festival traffic, utilizing static assets and minimal bundle size to guarantee 100% uptime even on slow mobile networks.',
-      responsive: 'Designed mobile-first with high-contrast text sizes and quick tap buttons for directions, helpline, and live updates.',
-      result: 'Provided millions of pilgrims with seamless access to verified temple information, drastically reducing support calls and improving the visitor pilgrimage experience.'
+      overview: 'Maa Bamleshwari Temple in Dongargarh is a historic hill shrine visited by pilgrims. The goal was to build a clean website that provides visitors with accurate details on pooja timings, festival dates, and ropeway access.',
+      challenge: 'Devotees and travelers frequently struggled to find verified information online regarding daily pooja schedules, festival dates, and ropeway operating hours.',
+      strategy: 'Designed an organized informational website prioritizing key visitor needs: daily pooja schedules, festival updates, directions, and helpline contact details.',
+      ux: 'Organized information into clear categories so pilgrims can find opening hours and transport details in a single tap.',
+      design: 'Warm gold and off-white palette with clear typography and shrine photography reflecting the spiritual location.',
+      dev: 'Lightweight static build ensuring fast loading even on low-speed mobile networks during peak festival traffic.',
+      responsive: 'Designed mobile-first with high-contrast text sizes and quick tap buttons for directions and phone helplines.',
+      result: 'Provided a reliable online information hub for devotees, making essential pilgrimage details easily accessible.'
     },
     'titan-forge': {
       title: 'Titan Forge',
-      subhead: 'Bold, high-energy digital presence for an elite gym.',
+      subhead: 'Modern website design for a local gym and training facility.',
       industry: 'Fitness / Wellness',
       heroImage: 'assets/titan-forge.png',
-      overview: 'Titan Forge is a premium athletic training facility and fitness performance brand. They required a high-energy, modern website to capture high-value gym memberships, personal training bookings, and athletic merch sales.',
-      challenge: 'Their previous site was cluttered and felt like a generic community gym, failing to reflect their high-end athletic equipment, expert coaching staff, and elite training culture.',
-      strategy: 'Crafted a bold dark-mode experience that conveys intensity, strength, and transformation. Focused on visual storytelling with high-contrast imagery, coach spotlights, and clear membership tier calls-to-action.',
-      ux: 'Structured intuitive landing paths for three target segments: general gym memberships, 1-on-1 athletic coaching, and group performance programs.',
-      design: 'Implemented a high-octane dark palette with crimson accents, sharp typography, high-definition facility photography, and subtle micro-animations on interactive cards.',
-      dev: 'Built with optimized media containers, instant tabbed program schedule viewing, and low-latency booking flow integration.',
-      responsive: 'Flawlessly optimized across mobile screens, enabling athletes to quickly view class schedules and book trial passes on the go.',
-      result: 'Boosted online membership trial sign-ups by 65% in the first month and established Titan Forge as the premier fitness destination in the region.'
+      overview: 'Titan Forge is a local training facility and gym. They needed a modern website to showcase their facility, personal training options, and class schedules to prospective members.',
+      challenge: 'Their previous site was cluttered and didn\'t effectively highlight their training programs, facilities, or membership options.',
+      strategy: 'Designed a clean dark-themed website that showcases facility photos, trainer experience, and clear membership inquiry buttons.',
+      ux: 'Created simple page paths for prospective members to view training programs, check schedule options, and request trial sessions.',
+      design: 'Bold dark palette with clear typography, high-contrast images, and organized program grids.',
+      dev: 'Built with optimized media containers and fast tabbed program schedule viewing for quick user interaction.',
+      responsive: 'Flawlessly optimized across mobile screens, enabling visitors to quickly view class schedules and contact the gym on the go.',
+      result: 'Provided the gym with a modern digital storefront that clearly presents their training services and encourages prospective members to reach out.'
     },
     'vk-impex': {
       title: 'VK Impex',
-      subhead: 'Global B2B trade portal for merchant export.',
+      subhead: 'Product showcase website for an import/export business.',
       industry: 'Corporate Website · Import Export',
       heroImage: 'assets/vk-impex.png',
-      overview: 'VK Impex is an international merchant exporter and trade house handling raw materials, industrial equipment, and agricultural commodities worldwide.',
-      challenge: 'Needed a professional digital storefront that satisfies international trade verification standards and displays product specifications clearly to global importers.',
-      strategy: 'Built a B2B trade portal experience featuring interactive supply chain statistics, item catalogs with spec sheets, and direct RFQ (Request For Quotation) forms.',
-      ux: 'Segmented products into intuitive trade categories with downloadable PDF specifications and direct WhatsApp inquiry triggers.',
-      design: 'Dark obsidian and gold theme with global supply chain visual maps and clean editorial product grids.',
-      dev: 'Fast semantic architecture with complete Schema.org Organization markup for global B2B search discovery.',
-      responsive: 'Seamless performance across all international desktop monitors and mobile devices.',
-      result: 'Enabled VK Impex to secure new trade inquiries from international buyers across Europe and the Middle East.'
+      overview: 'VK Impex is an import/export business handling merchant export products. They needed a clean website to list product categories and company details for prospective clients.',
+      challenge: 'Needed a clear online catalog where business contacts could review export product offerings and request pricing quotes.',
+      strategy: 'Structured a clear multi-page site displaying product specifications, export categories, and direct inquiry options.',
+      ux: 'Segmented products into clear categories with downloadable product details and direct WhatsApp / email contact triggers.',
+      design: 'Dark charcoal theme with organized product grids and straightforward contact layouts.',
+      dev: 'Fast semantic architecture with complete Schema.org markup for clear business indexing.',
+      responsive: 'Seamless performance across desktop monitors and mobile devices.',
+      result: 'Gave VK Impex a factual, professional web presentation to share with prospective commercial partners.'
     }
   };
 
@@ -444,5 +444,78 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       toast.classList.remove('show');
     }, 4500);
+  }
+
+  // --- 8. Hero Interactive Mouse Parallax Effect ---
+  const heroMockupWrapper = document.getElementById('heroMockupWrapper');
+  const heroSection = document.getElementById('home');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (heroSection && heroMockupWrapper && !prefersReducedMotion && window.innerWidth > 900) {
+    heroSection.addEventListener('mousemove', (e) => {
+      const rect = heroSection.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      const moveX = (x / (rect.width / 2)) * 6; // Max 6px horizontal movement
+      const moveY = (y / (rect.height / 2)) * 6; // Max 6px vertical movement
+      
+      heroMockupWrapper.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+    });
+
+    heroSection.addEventListener('mouseleave', () => {
+      heroMockupWrapper.style.transform = 'translate3d(0px, 0px, 0px)';
+    });
+  }
+
+  // --- 8b. Live Preview Window 3D Perspective Tilt Micro-Interaction ---
+  if (!prefersReducedMotion && window.innerWidth > 900) {
+    const previewWindows = document.querySelectorAll('.live-preview-window');
+    
+    previewWindows.forEach(win => {
+      win.addEventListener('mousemove', (e) => {
+        const rect = win.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = ((y - centerY) / centerY) * -5; // Max 5deg tilt
+        const rotateY = ((x - centerX) / centerX) * 5; // Max 5deg tilt
+        
+        win.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translate3d(0, -8px, 0)`;
+      });
+      
+      win.addEventListener('mouseleave', () => {
+        win.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translate3d(0, 0, 0)';
+      });
+    });
+  }
+
+  // --- 9. Controlled Scroll Reveal Entrance Animations ---
+  if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+    const revealElements = document.querySelectorAll(
+      '.case-study-card, .service-card, .process-step, .philosophy-card, .expectation-card, .pricing-card, .trans-point'
+    );
+
+    revealElements.forEach((el, index) => {
+      el.classList.add('reveal-element');
+      el.style.transitionDelay = `${(index % 4) * 0.08}s`;
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
   }
 });
