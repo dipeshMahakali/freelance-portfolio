@@ -1,6 +1,6 @@
 # Complete Google SEO & Indexing Reference Guide
 
-This document records all the exact steps, code configurations, structured data, favicon requirements, and Google Search Console indexing workflows implemented for **Dipesh Patel's Portfolio Website** (`https://dipesh-patel-portfolio.vercel.app/`). 
+This document records all the exact steps, code configurations, structured data, favicon requirements, and Google Search Console indexing workflows implemented for **Dipesh Patel's Portfolio Website** (`https://dipesh-patel.vercel.app/`). 
 
 Use this guide as a step-by-step blueprint for this project or any future website projects.
 
@@ -57,7 +57,7 @@ Place this inside `<head>`:
     "Dipesh Patel Portfolio",
     "Dipesh Patel Freelance Web Designer"
   ],
-  "url": "https://dipesh-patel-portfolio.vercel.app/"
+  "url": "https://dipesh-patel.vercel.app/"
 }
 </script>
 ```
@@ -88,13 +88,13 @@ Google Search has strict rules for displaying icons in search result snippets:
 
 ```html
 <!-- Favicon & Brand Icons (Google Search & Browsers) -->
-<link rel="shortcut icon" href="https://dipesh-patel-portfolio.vercel.app/favicon.ico">
-<link rel="icon" type="image/x-icon" href="https://dipesh-patel-portfolio.vercel.app/favicon.ico">
-<link rel="icon" type="image/svg+xml" href="https://dipesh-patel-portfolio.vercel.app/favicon.svg">
-<link rel="icon" type="image/webp" sizes="48x48" href="https://dipesh-patel-portfolio.vercel.app/favicon-48x48.webp">
-<link rel="icon" type="image/webp" sizes="32x32" href="https://dipesh-patel-portfolio.vercel.app/favicon-32x32.webp">
-<link rel="apple-touch-icon" sizes="180x180" href="https://dipesh-patel-portfolio.vercel.app/apple-touch-icon.webp">
-<link rel="manifest" href="https://dipesh-patel-portfolio.vercel.app/site.webmanifest">
+<link rel="shortcut icon" href="https://dipesh-patel.vercel.app/favicon.ico">
+<link rel="icon" type="image/x-icon" href="https://dipesh-patel.vercel.app/favicon.ico">
+<link rel="icon" type="image/svg+xml" href="https://dipesh-patel.vercel.app/favicon.svg">
+<link rel="icon" type="image/webp" sizes="48x48" href="https://dipesh-patel.vercel.app/favicon-48x48.webp">
+<link rel="icon" type="image/webp" sizes="32x32" href="https://dipesh-patel.vercel.app/favicon-32x32.webp">
+<link rel="apple-touch-icon" sizes="180x180" href="https://dipesh-patel.vercel.app/apple-touch-icon.webp">
+<link rel="manifest" href="https://dipesh-patel.vercel.app/site.webmanifest">
 <meta name="theme-color" content="#FAF8F5">
 ```
 
@@ -115,9 +115,9 @@ We implemented two types of Schema.org structured data:
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "name": "Dipesh Patel | Freelance Web Designer & Developer",
-  "image": "https://dipesh-patel-portfolio.vercel.app/assets/dipesh-profile.webp",
-  "@id": "https://dipesh-patel-portfolio.vercel.app/#service",
-  "url": "https://dipesh-patel-portfolio.vercel.app/",
+  "image": "https://dipesh-patel.vercel.app/assets/dipesh-profile.webp",
+  "@id": "https://dipesh-patel.vercel.app/#service",
+  "url": "https://dipesh-patel.vercel.app/",
   "telephone": "+918319821606",
   "email": "dipesh.patel1902@gmail.com",
   "priceRange": "₹25,000 - ₹100,000+",
@@ -167,11 +167,11 @@ Full SEO tags configured inside `index.html`:
 <meta name="keywords" content="Freelance Web Designer, Web Developer for Small Businesses, India Web Designer, Custom Business Websites, E-commerce Web Developer, Landing Page Specialist, Modern UI UX Designer, Dipesh Patel">
 <meta name="author" content="Dipesh Patel">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://dipesh-patel-portfolio.vercel.app/">
+<link rel="canonical" href="https://dipesh-patel.vercel.app/">
 
 <!-- Open Graph / Social Sharing -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://dipesh-patel-portfolio.vercel.app/">
+<meta property="og:url" content="https://dipesh-patel.vercel.app/">
 <meta property="og:site_name" content="Dipesh Patel">
 <meta property="og:title" content="Freelance Web Designer & Developer for Small Businesses | Dipesh Patel">
 <meta property="og:description" content="I build modern, responsive websites for local businesses, startups and growing brands — designed to build trust and turn visitors into enquiries.">
@@ -180,7 +180,7 @@ Full SEO tags configured inside `index.html`:
 
 <!-- Twitter Cards -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://dipesh-patel-portfolio.vercel.app/">
+<meta name="twitter:url" content="https://dipesh-patel.vercel.app/">
 <meta name="twitter:title" content="Freelance Web Designer & Developer for Small Businesses | Dipesh Patel">
 <meta name="twitter:description" content="I build modern, responsive websites for local businesses, startups and growing brands — designed to build trust and turn visitors into enquiries.">
 <meta name="twitter:image" content="assets/vk-shipping.webp">
@@ -197,7 +197,7 @@ Ensure crawler access is open to all user agents and points to `sitemap.xml`:
 User-agent: *
 Allow: /
 
-Sitemap: https://dipesh-patel-portfolio.vercel.app/sitemap.xml
+Sitemap: https://dipesh-patel.vercel.app/sitemap.xml
 ```
 
 ### `sitemap.xml`
@@ -210,7 +210,7 @@ Defines indexed pages and update timestamps (`<lastmod>`):
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
-    <loc>https://dipesh-patel-portfolio.vercel.app/</loc>
+    <loc>https://dipesh-patel.vercel.app/</loc>
     <lastmod>2026-08-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.00</priority>
@@ -225,7 +225,7 @@ Defines indexed pages and update timestamps (`<lastmod>`):
 ### Step 1: Ownership Verification
 We placed Google's HTML verification file in the root directory:
 * File: `googleb0b35c357392eda3.html`
-* Verification URL: `https://dipesh-patel-portfolio.vercel.app/googleb0b35c357392eda3.html`
+* Verification URL: `https://dipesh-patel.vercel.app/googleb0b35c357392eda3.html`
 
 ### Step 2: Submit Sitemap in Search Console
 1. Log in to [Google Search Console](https://search.google.com/search-console).
@@ -234,7 +234,7 @@ We placed Google's HTML verification file in the root directory:
 
 ### Step 3: Request Re-Indexing for Fast Site Name & Favicon Update
 1. Open Google Search Console.
-2. In the top search bar, paste: `https://dipesh-patel-portfolio.vercel.app/`
+2. In the top search bar, paste: `https://dipesh-patel.vercel.app/`
 3. Click **TEST LIVE URL** to confirm Googlebot reads the new `<head>` tags and favicons.
 4. Click **REQUEST INDEXING**.
 

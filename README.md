@@ -8,7 +8,7 @@ A high-converting, SEO-optimized freelance studio portfolio website built for **
 
 ## 🚀 Live Demo & Deployment
 
-* **Live Website URL**: [https://dipesh-patel-portfolio.vercel.app/](https://dipesh-patel-portfolio.vercel.app/)
+* **Live Website URL**: [https://dipesh-patel.vercel.app/](https://dipesh-patel.vercel.app/)
 * **Platform**: Vercel (Serverless Static + API Function)
 
 ---
