@@ -10,6 +10,19 @@
       "use": "@vercel/static"
     }
   ],
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "https://dipesh-patel-portfolio.vercel.app"
+        }
+      ],
+      "destination": "https://dipesh-patel.vercel.app/$1",
+      "statusCode": 301
+    }
+  ],
   "routes": [
     {
       "src": "/api/enquiry",
