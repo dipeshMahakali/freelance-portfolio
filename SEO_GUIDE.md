@@ -76,12 +76,12 @@ Google Search has strict rules for displaying icons in search result snippets:
 | File Name | Dimensions | Purpose |
 | :--- | :--- | :--- |
 | `favicon.svg` | Vector SVG | Primary crisp vector favicon for modern browsers & Google |
-| `favicon-48x48.png` | **48 × 48 px** | **Google Search Snippet Required Size** |
-| `favicon-32x32.png` | 32 × 32 px | Standard desktop browser tab icon |
+| `favicon-48x48.webp` | **48 × 48 px** | **Google Search Snippet Required Size** |
+| `favicon-32x32.webp` | 32 × 32 px | Standard desktop browser tab icon |
 | `favicon.ico` | Multi-size ICO | Legacy browser fallback (16x16, 32x32, 48x48) |
-| `apple-touch-icon.png` | 180 × 180 px | iOS Home screen bookmark icon |
-| `icon-192x192.png` | 192 × 192 px | Android PWA icon |
-| `icon-512x512.png` | 512 × 512 px | High-res PWA splash icon |
+| `apple-touch-icon.webp` | 180 × 180 px | iOS Home screen bookmark icon |
+| `icon-192x192.webp` | 192 × 192 px | Android PWA icon |
+| `icon-512x512.webp` | 512 × 512 px | High-res PWA splash icon |
 | `site.webmanifest` | JSON Manifest | Web Application Manifest definition |
 
 ### HTML `<head>` Integration Code:
@@ -91,9 +91,9 @@ Google Search has strict rules for displaying icons in search result snippets:
 <link rel="shortcut icon" href="https://dipesh-patel-portfolio.vercel.app/favicon.ico">
 <link rel="icon" type="image/x-icon" href="https://dipesh-patel-portfolio.vercel.app/favicon.ico">
 <link rel="icon" type="image/svg+xml" href="https://dipesh-patel-portfolio.vercel.app/favicon.svg">
-<link rel="icon" type="image/png" sizes="48x48" href="https://dipesh-patel-portfolio.vercel.app/favicon-48x48.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://dipesh-patel-portfolio.vercel.app/favicon-32x32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="https://dipesh-patel-portfolio.vercel.app/apple-touch-icon.png">
+<link rel="icon" type="image/webp" sizes="48x48" href="https://dipesh-patel-portfolio.vercel.app/favicon-48x48.webp">
+<link rel="icon" type="image/webp" sizes="32x32" href="https://dipesh-patel-portfolio.vercel.app/favicon-32x32.webp">
+<link rel="apple-touch-icon" sizes="180x180" href="https://dipesh-patel-portfolio.vercel.app/apple-touch-icon.webp">
 <link rel="manifest" href="https://dipesh-patel-portfolio.vercel.app/site.webmanifest">
 <meta name="theme-color" content="#FAF8F5">
 ```
@@ -115,7 +115,7 @@ We implemented two types of Schema.org structured data:
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "name": "Dipesh Patel | Freelance Web Designer & Developer",
-  "image": "https://dipesh-patel-portfolio.vercel.app/assets/dipesh-profile.png",
+  "image": "https://dipesh-patel-portfolio.vercel.app/assets/dipesh-profile.webp",
   "@id": "https://dipesh-patel-portfolio.vercel.app/#service",
   "url": "https://dipesh-patel-portfolio.vercel.app/",
   "telephone": "+918319821606",
@@ -175,7 +175,7 @@ Full SEO tags configured inside `index.html`:
 <meta property="og:site_name" content="Dipesh Patel">
 <meta property="og:title" content="Freelance Web Designer & Developer for Small Businesses | Dipesh Patel">
 <meta property="og:description" content="I build modern, responsive websites for local businesses, startups and growing brands — designed to build trust and turn visitors into enquiries.">
-<meta property="og:image" content="assets/vk-shipping.png">
+<meta property="og:image" content="assets/vk-shipping.webp">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter Cards -->
@@ -183,7 +183,7 @@ Full SEO tags configured inside `index.html`:
 <meta name="twitter:url" content="https://dipesh-patel-portfolio.vercel.app/">
 <meta name="twitter:title" content="Freelance Web Designer & Developer for Small Businesses | Dipesh Patel">
 <meta name="twitter:description" content="I build modern, responsive websites for local businesses, startups and growing brands — designed to build trust and turn visitors into enquiries.">
-<meta name="twitter:image" content="assets/vk-shipping.png">
+<meta name="twitter:image" content="assets/vk-shipping.webp">
 ```
 
 ---

@@ -2,7 +2,7 @@
 
 A high-converting, SEO-optimized freelance studio portfolio website built for **Dipesh Patel** (Freelance Web Designer & Developer for Small Businesses, Local Brands, and Startups). Designed with a **Warm Ivory Editorial / High-End Studio Aesthetic**, live project previews, interactive comparison tools, and an integrated multi-step project enquiry system.
 
-![Live Website Banner](assets/after-website.png)
+![Live Website Banner](assets/after-website.webp)
 
 ---
 
@@ -47,21 +47,21 @@ freelance-portfolio/
 ├── api/
 │   └── enquiry.js               # Vercel serverless function for contact form submission & SMTP
 ├── assets/                      # High-res screenshots, portraits, and showcase images
-│   ├── after-website.png
-│   ├── before-website.png
-│   ├── dipesh-profile.png
-│   ├── maa-bamleshwari.png
-│   ├── titan-forge.png
-│   ├── vk-impex.png
-│   └── vk-shipping.png
-├── apple-touch-icon.png         # iOS Home screen icon (180x180)
+│   ├── after-website.webp
+│   ├── before-website.webp
+│   ├── dipesh-profile.webp
+│   ├── maa-bamleshwari.webp
+│   ├── titan-forge.webp
+│   ├── vk-impex.webp
+│   └── vk-shipping.webp
+├── apple-touch-icon.webp        # iOS Home screen icon (180x180)
 ├── favicon.ico                  # Standard browser icon (16x16, 32x32, 48x48)
 ├── favicon.svg                  # Vector SVG logo icon
-├── favicon-32x32.png            # 32x32 PNG favicon
-├── favicon-48x48.png            # Google Search required 48x48 PNG favicon
+├── favicon-32x32.webp           # 32x32 WebP favicon
+├── favicon-48x48.webp           # Google Search required 48x48 WebP favicon
 ├── googleb0b35c357392eda3.html  # Google Search Console domain verification file
-├── icon-192x192.png             # PWA Android icon
-├── icon-512x512.png             # High-res PWA icon
+├── icon-192x192.webp            # PWA Android icon
+├── icon-512x512.webp            # High-res PWA icon
 ├── index.html                   # Primary HTML markup with full SEO meta tags & schema
 ├── package.json                 # Node dependencies (Nodemailer, Express, Cors, Dotenv)
 ├── robots.txt                   # Crawler directives allowing full search indexing
