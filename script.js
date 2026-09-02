@@ -519,13 +519,19 @@ document.addEventListener('DOMContentLoaded', () => {
     revealElements.forEach(el => revealObserver.observe(el));
   }
 
-  // --- 10. High-Performance IntersectionObserver for Live Website Iframes ---
+  // --- 10. High-Performance Smart Lazy Loader for Live Website Iframes ---
   const initIframeLazyLoading = () => {
     const previewContainers = document.querySelectorAll('.browser-body');
 
-    const loadIframe = (body) => {
+    previewContainers.forEach(body => {
       const iframe = body.querySelector('iframe[data-src]');
-      if (iframe) {
+      const windowContainer = body.closest('.browser-window') || body;
+      if (!iframe) return;
+
+      let isLoaded = false;
+      const loadIframe = () => {
+        if (isLoaded) return;
+        isLoaded = true;
         const realSrc = iframe.getAttribute('data-src');
         if (realSrc && (!iframe.src || iframe.src === 'about:blank')) {
           iframe.src = realSrc;
@@ -534,31 +540,24 @@ document.addEventListener('DOMContentLoaded', () => {
             body.classList.add('iframe-loaded');
           };
         }
-      }
-    };
+      };
 
-    if ('IntersectionObserver' in window) {
-      const iframeObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const body = entry.target;
-            if ('requestIdleCallback' in window) {
-              requestIdleCallback(() => loadIframe(body), { timeout: 2500 });
-            } else {
-              setTimeout(() => loadIframe(body), 1500);
-            }
-            observer.unobserve(body);
-          }
-        });
-      }, {
-        rootMargin: '50px 0px 50px 0px',
-        threshold: 0.15
-      });
+      // Load live site on hover, touch, or click for instant interactivity
+      windowContainer.addEventListener('mouseenter', loadIframe, { once: true });
+      windowContainer.addEventListener('touchstart', loadIframe, { once: true, passive: true });
+      windowContainer.addEventListener('click', loadIframe, { once: true });
 
-      previewContainers.forEach(container => iframeObserver.observe(container));
-    } else {
-      previewContainers.forEach(body => loadIframe(body));
-    }
+      // Fallback: load after first user scroll or 3.5s idle time
+      const handleUserScroll = () => {
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(loadIframe, { timeout: 3500 });
+        } else {
+          setTimeout(loadIframe, 2000);
+        }
+        window.removeEventListener('scroll', handleUserScroll);
+      };
+      window.addEventListener('scroll', handleUserScroll, { passive: true });
+    });
   };
 
   initIframeLazyLoading();
