@@ -183,8 +183,20 @@
   <!-- Vercel Web Analytics -->
   <script defer src="/_vercel/insights/script.js"></script>
 
-  <!-- External Stylesheet -->
-  <link rel="stylesheet" href="styles.css">
+  <!-- Preconnect & Non-Blocking Asynchronous Fonts -->
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link rel="preload" href="styles.min.css" as="style">
+  <link rel="stylesheet" href="styles.min.css">
+
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@900,800,700,500,400&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@900,800,700,500,400&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap">
+  </noscript>
 </head>
 <body>
 
@@ -244,6 +256,9 @@
     </div>
   </div>
 
+  <!-- MAIN CONTENT LANDMARK -->
+  <main id="main-content">
+
   <!-- ==========================================================================
        01 — HERO SECTION
        ========================================================================== -->
@@ -293,7 +308,7 @@
               <span>Scroll Preview</span>
             </div>
             <div class="iframe-scroll-wrapper">
-              <iframe src="https://vknathgroup.netlify.app/" title="V K Shipping Services Live Website Preview" loading="lazy" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
+              <iframe data-src="https://vknathgroup.netlify.app/" title="V K Shipping Services Live Website Preview" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
             </div>
           </div>
         </div>
@@ -347,11 +362,11 @@
         </div>
 
         <!-- Industry Filter Bar -->
-        <div class="filter-bar" id="industryFilter">
-          <button class="filter-btn active" data-filter="all">ALL</button>
-          <button class="filter-btn" data-filter="corporate">CORPORATE & LOGISTICS</button>
-          <button class="filter-btn" data-filter="fitness">FITNESS</button>
-          <button class="filter-btn" data-filter="cultural">CULTURAL</button>
+        <div class="filter-bar" id="industryFilter" role="toolbar" aria-label="Filter case studies by industry">
+          <button class="filter-btn active" data-filter="all" type="button" aria-label="Show all industry work">ALL</button>
+          <button class="filter-btn" data-filter="corporate" type="button" aria-label="Filter corporate and logistics work">CORPORATE & LOGISTICS</button>
+          <button class="filter-btn" data-filter="fitness" type="button" aria-label="Filter fitness work">FITNESS</button>
+          <button class="filter-btn" data-filter="cultural" type="button" aria-label="Filter cultural work">CULTURAL</button>
         </div>
       </div>
 
@@ -377,7 +392,7 @@
                   <span>Scroll Preview</span>
                 </div>
                 <div class="iframe-scroll-wrapper">
-                  <iframe src="https://vknathgroup.netlify.app/" title="V K Shipping Services Live Website" loading="lazy" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
+                  <iframe data-src="https://vknathgroup.netlify.app/" title="V K Shipping Services Live Website" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
                 </div>
               </div>
             </div>
@@ -428,7 +443,7 @@
                   <span>Scroll Preview</span>
                 </div>
                 <div class="iframe-scroll-wrapper">
-                  <iframe src="https://modern-temple-website.vercel.app/" title="Maa Bamleshwari Temple Live Website" loading="lazy" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
+                  <iframe data-src="https://modern-temple-website.vercel.app/" title="Maa Bamleshwari Temple Live Website" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
                 </div>
               </div>
             </div>
@@ -479,7 +494,7 @@
                   <span>Scroll Preview</span>
                 </div>
                 <div class="iframe-scroll-wrapper">
-                  <iframe src="https://urban-gym-template.vercel.app/" title="Titan Forge Fitness Live Website" loading="lazy" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
+                  <iframe data-src="https://urban-gym-template.vercel.app/" title="Titan Forge Fitness Live Website" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
                 </div>
               </div>
             </div>
@@ -530,7 +545,7 @@
                   <span>Scroll Preview</span>
                 </div>
                 <div class="iframe-scroll-wrapper">
-                  <iframe src="https://vknathgroup.netlify.app/vk-impex" title="VK Impex B2B Live Website" loading="lazy" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
+                  <iframe data-src="https://vknathgroup.netlify.app/vk-impex" title="VK Impex B2B Live Website" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
                 </div>
               </div>
             </div>
@@ -712,11 +727,11 @@
       </div>
 
       <div class="slider-container" id="beforeAfterSlider">
-        <img src="assets/before-website.webp" class="slider-img" alt="Outdated corporate website before redesign">
+        <img src="assets/before-website.webp" class="slider-img" alt="Outdated corporate website before redesign" width="720" height="450" loading="lazy">
         <div class="slider-label label-before">OLD WEBSITE</div>
 
         <div class="slider-after-wrapper" id="sliderAfterWrapper">
-          <img src="assets/after-website.webp" class="slider-img" alt="Modern high-converting editorial website redesign by Dipesh Patel">
+          <img src="assets/after-website.webp" class="slider-img" alt="Modern high-converting editorial website redesign by Dipesh Patel" width="720" height="450" loading="lazy">
           <div class="slider-label label-after">NEW WEBSITE</div>
         </div>
 
@@ -730,7 +745,7 @@
         <div class="trans-point">
           <div class="trans-icon">✓</div>
           <div>
-            <h4>Better hierarchy</h4>
+            <h3>Better hierarchy</h3>
             <p>Clear visual structure that guides the visitor's focus naturally to key information.</p>
           </div>
         </div>
@@ -738,7 +753,7 @@
         <div class="trans-point">
           <div class="trans-icon">✓</div>
           <div>
-            <h4>Modern visual identity</h4>
+            <h3>Modern visual identity</h3>
             <p>Warm, editorial design that makes your brand feel established and high-end.</p>
           </div>
         </div>
@@ -746,7 +761,7 @@
         <div class="trans-point">
           <div class="trans-icon">✓</div>
           <div>
-            <h4>Mobile-first layout</h4>
+            <h3>Mobile-first layout</h3>
             <p>Flawless readability and touch navigation across all mobile devices and tablets.</p>
           </div>
         </div>
@@ -754,7 +769,7 @@
         <div class="trans-point">
           <div class="trans-icon">✓</div>
           <div>
-            <h4>Clear calls-to-action</h4>
+            <h3>Clear calls-to-action</h3>
             <p>Strategic, friction-free buttons positioned to convert visitors into active enquiries.</p>
           </div>
         </div>
@@ -762,7 +777,7 @@
         <div class="trans-point">
           <div class="trans-icon">✓</div>
           <div>
-            <h4>Improved customer journey</h4>
+            <h3>Improved customer journey</h3>
             <p>Answers prospect questions immediately to build trust and authority before contacting you.</p>
           </div>
         </div>
@@ -830,7 +845,7 @@
     <div class="container about-grid">
       <div class="about-img-col">
         <div class="about-img-frame">
-          <img src="assets/dipesh-profile.webp" alt="Dipesh Patel - Freelance Web Designer & Developer" loading="lazy">
+          <img src="assets/dipesh-profile.webp" alt="Dipesh Patel - Freelance Web Designer & Developer" width="600" height="700" loading="lazy">
           <div class="about-location-badge">
             <span style="width:8px; height:8px; background-color:#10B981; border-radius:50%; display:inline-block;"></span>
             <span>Based in India · Working with businesses worldwide</span>
@@ -1058,7 +1073,7 @@
       <div class="faq-accordion">
         
         <div class="faq-item active">
-          <button class="faq-trigger">
+          <button class="faq-trigger" type="button">
             <span>How long does a website take?</span>
             <span class="faq-icon">+</span>
           </button>
@@ -1070,7 +1085,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-trigger">
+          <button class="faq-trigger" type="button">
             <span>Do you provide the domain and hosting?</span>
             <span class="faq-icon">+</span>
           </button>
@@ -1082,7 +1097,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-trigger">
+          <button class="faq-trigger" type="button">
             <span>Will the website work on mobile?</span>
             <span class="faq-icon">+</span>
           </button>
@@ -1094,7 +1109,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-trigger">
+          <button class="faq-trigger" type="button">
             <span>Can I update the website myself?</span>
             <span class="faq-icon">+</span>
           </button>
@@ -1106,7 +1121,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-trigger">
+          <button class="faq-trigger" type="button">
             <span>Do you provide SEO?</span>
             <span class="faq-icon">+</span>
           </button>
@@ -1118,7 +1133,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-trigger">
+          <button class="faq-trigger" type="button">
             <span>Do you maintain websites after launch?</span>
             <span class="faq-icon">+</span>
           </button>
@@ -1130,7 +1145,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-trigger">
+          <button class="faq-trigger" type="button">
             <span>Can you redesign my existing website?</span>
             <span class="faq-icon">+</span>
           </button>
@@ -1142,7 +1157,7 @@
         </div>
 
         <div class="faq-item">
-          <button class="faq-trigger">
+          <button class="faq-trigger" type="button">
             <span>Do you work with international clients?</span>
             <span class="faq-icon">+</span>
           </button>
@@ -1191,6 +1206,7 @@
       </div>
     </div>
   </section>
+  </main>
 
   <!-- ==========================================================================
        FOOTER
@@ -1209,7 +1225,7 @@
         </div>
 
         <div>
-          <h4 class="footer-heading">Navigation</h4>
+          <h3 class="footer-heading">Navigation</h3>
           <div class="footer-links">
             <a href="#work" class="footer-link">Work</a>
             <a href="#services" class="footer-link">Services</a>
@@ -1220,7 +1236,7 @@
         </div>
 
         <div>
-          <h4 class="footer-heading">Services</h4>
+          <h3 class="footer-heading">Services</h3>
           <div class="footer-links">
             <a href="#services" class="footer-link">Business Websites</a>
             <a href="#services" class="footer-link">Landing Pages</a>
@@ -1231,7 +1247,7 @@
         </div>
 
         <div>
-          <h4 class="footer-heading">Connect</h4>
+          <h3 class="footer-heading">Connect</h3>
           <div class="footer-links">
             <a href="mailto:dipesh.patel1902@gmail.com" class="footer-link">Email Dipesh</a>
             <a href="https://wa.me/918319821606" class="footer-link" target="_blank" rel="noopener">WhatsApp Chat</a>
@@ -1411,6 +1427,6 @@
   </div>
 
   <!-- External Script -->
-  <script src="script.js"></script>
+  <script defer src="script.min.js"></script>
 </body>
 </html>

@@ -6,6 +6,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+const zlib = require('zlib');
 
 // Simple .env parser function
 function loadEnv() {
@@ -54,6 +55,13 @@ const server = http.createServer((req, res) => {
   if (req.method === 'OPTIONS') {
     res.writeHead(200);
     res.end();
+    return;
+  }
+
+  // Mock Vercel Insights Script for Local Lighthouse Audits
+  if (parsedUrl.pathname === '/_vercel/insights/script.js') {
+    res.writeHead(200, { 'Content-Type': 'application/javascript' });
+    res.end('/* Local Vercel Web Analytics Mock */');
     return;
   }
 
@@ -193,9 +201,24 @@ const server = http.createServer((req, res) => {
 
     const ext = path.extname(filePath).toLowerCase();
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+    const cacheHeader = ext === '.html' ? 'no-cache' : 'public, max-age=31536000, immutable';
+    const acceptEncoding = req.headers['accept-encoding'] || '';
+    const isCompressible = /text|javascript|json|html|xml|svg/.test(contentType);
 
-    res.writeHead(200, { 'Content-Type': contentType });
-    fs.createReadStream(filePath).pipe(res);
+    if (isCompressible && acceptEncoding.includes('gzip')) {
+      res.writeHead(200, {
+        'Content-Type': contentType,
+        'Cache-Control': cacheHeader,
+        'Content-Encoding': 'gzip'
+      });
+      fs.createReadStream(filePath).pipe(zlib.createGzip()).pipe(res);
+    } else {
+      res.writeHead(200, {
+        'Content-Type': contentType,
+        'Cache-Control': cacheHeader
+      });
+      fs.createReadStream(filePath).pipe(res);
+    }
   });
 });
 

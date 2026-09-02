@@ -518,4 +518,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
     revealElements.forEach(el => revealObserver.observe(el));
   }
+
+  // --- 10. High-Performance IntersectionObserver for Live Website Iframes ---
+  const initIframeLazyLoading = () => {
+    const previewContainers = document.querySelectorAll('.browser-body');
+
+    const loadIframe = (body) => {
+      const iframe = body.querySelector('iframe[data-src]');
+      if (iframe) {
+        const realSrc = iframe.getAttribute('data-src');
+        if (realSrc && (!iframe.src || iframe.src === 'about:blank')) {
+          iframe.src = realSrc;
+          iframe.onload = () => {
+            iframe.classList.add('loaded');
+            body.classList.add('iframe-loaded');
+          };
+        }
+      }
+    };
+
+    if ('IntersectionObserver' in window) {
+      const iframeObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const body = entry.target;
+            if ('requestIdleCallback' in window) {
+              requestIdleCallback(() => loadIframe(body), { timeout: 2500 });
+            } else {
+              setTimeout(() => loadIframe(body), 1500);
+            }
+            observer.unobserve(body);
+          }
+        });
+      }, {
+        rootMargin: '50px 0px 50px 0px',
+        threshold: 0.15
+      });
+
+      previewContainers.forEach(container => iframeObserver.observe(container));
+    } else {
+      previewContainers.forEach(body => loadIframe(body));
+    }
+  };
+
+  initIframeLazyLoading();
+
 });

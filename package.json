@@ -1,7 +1,14 @@
 {
+  "name": "freelance-portfolio",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "nodemailer": "^9.0.5"
   }
 }
+
