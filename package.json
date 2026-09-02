@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "build": "node -e \"const fs=require('fs'); fs.writeFileSync('styles.min.css', fs.readFileSync('styles.css','utf8').replace(/\\/\\*[\\s\\S]*?\\*\\//g,'').replace(/\\s+/g,' ').replace(/\\s*([{}:;,])\\s*/g,'$1').trim()); fs.writeFileSync('script.min.js', fs.readFileSync('script.js','utf8')); console.log('Assets built successfully.');\""
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

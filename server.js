@@ -74,12 +74,23 @@ const server = http.createServer((req, res) => {
         const data = JSON.parse(body || '{}');
         const submittedAt = new Date().toISOString();
 
+        // Server-side validation
+        const name = (data.clientName || '').trim();
+        const email = (data.clientEmail || '').trim();
+        const phone = (data.clientPhone || '').trim();
+
+        if (!name || !email || !phone) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: false, error: 'Name, email, and phone number are required.' }));
+          return;
+        }
+
         const leadRecord = {
           id: 'lead_' + Date.now(),
           submittedAt,
-          clientName: data.clientName || 'Anonymous Prospect',
-          clientEmail: data.clientEmail || 'Not provided',
-          clientPhone: data.clientPhone || 'Not provided',
+          clientName: name,
+          clientEmail: email,
+          clientPhone: phone,
           projectType: data.projectType || 'Not specified',
           budget: data.budget || 'Not specified',
           timeline: data.timeline || 'Not specified',

@@ -50,13 +50,23 @@ if (!$data) {
     $data = $_POST;
 }
 
+$rawName  = trim($data['clientName'] ?? '');
+$rawEmail = trim($data['clientEmail'] ?? '');
+$rawPhone = trim($data['clientPhone'] ?? '');
+
+if (empty($rawName) || empty($rawEmail) || empty($rawPhone) || !filter_var($rawEmail, FILTER_VALIDATE_EMAIL)) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'error' => 'Name, email, and phone number are required fields.']);
+    exit();
+}
+
 $projectType     = htmlspecialchars($data['projectType'] ?? 'Not specified');
 $budget          = htmlspecialchars($data['budget'] ?? 'Not specified');
 $timeline        = htmlspecialchars($data['timeline'] ?? 'Not specified');
 $businessDetails = htmlspecialchars($data['businessDetails'] ?? 'No details provided');
-$clientName      = htmlspecialchars($data['clientName'] ?? 'Anonymous Prospect');
-$clientEmail     = filter_var($data['clientEmail'] ?? '', FILTER_VALIDATE_EMAIL) ? $data['clientEmail'] : 'Not provided';
-$clientPhone     = htmlspecialchars($data['clientPhone'] ?? 'Not provided');
+$clientName      = htmlspecialchars($rawName);
+$clientEmail     = htmlspecialchars($rawEmail);
+$clientPhone     = htmlspecialchars($rawPhone);
 $submittedAt     = date('Y-m-d H:i:s T');
 $clientIP        = $_SERVER['REMOTE_ADDR'] ?? 'Unknown';
 

@@ -188,8 +188,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <link rel="preload" href="styles.min.css" as="style">
-  <link rel="stylesheet" href="styles.min.css">
+  <link rel="preload" href="styles.css" as="style">
+  <link rel="stylesheet" href="styles.css">
 
   <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@900,800,700,500,400&display=swap" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" media="print" onload="this.media='all'">
@@ -959,7 +959,9 @@
           <div>
             <h3 class="pricing-title">Starter Website</h3>
             <p class="pricing-sub">For small businesses that need a professional online presence.</p>
+            <!-- 
             <div class="pricing-amount">Starting from ₹25,000 <span class="period">/ $499 USD</span></div>
+            -->
 
             <div class="pricing-features">
               <div class="pricing-feature">
@@ -993,7 +995,9 @@
           <div>
             <h3 class="pricing-title">Business Website</h3>
             <p class="pricing-sub">For established businesses that need a more complete website.</p>
+            <!-- 
             <div class="pricing-amount">Starting from ₹60,000 <span class="period">/ $1,199 USD</span></div>
+            -->
 
             <div class="pricing-features">
               <div class="pricing-feature">
@@ -1194,7 +1198,7 @@
           WhatsApp Me
         </a>
 
-        <a href="mailto:dipesh.patel1902@gmail.com" class="btn btn-secondary" style="padding: 1.1rem 2.25rem; font-size: 1.05rem;">
+        <a href="mailto:dipesh.patel1902@gmail.com" class="btn btn-secondary btn-secondary-dark" style="padding: 1.1rem 2.25rem; font-size: 1.05rem;">
           Book a Call / Email ✉
         </a>
       </div>
@@ -1397,18 +1401,21 @@
           <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Where should Dipesh follow up with your project outline?</p>
 
           <div class="form-group">
-            <label class="form-label" for="clientNameInput">Your Name</label>
+            <label class="form-label" for="clientNameInput">Your Name <span style="color: #E53E3E;">*</span></label>
             <input type="text" class="form-input" id="clientNameInput" placeholder="e.g. Rahul Sharma" required>
+            <span class="form-error-msg" id="clientNameError"></span>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="clientEmailInput">Email Address</label>
+            <label class="form-label" for="clientEmailInput">Email Address <span style="color: #E53E3E;">*</span></label>
             <input type="email" class="form-input" id="clientEmailInput" placeholder="e.g. rahul@company.com" required>
+            <span class="form-error-msg" id="clientEmailError"></span>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="clientPhoneInput">WhatsApp / Phone Number</label>
+            <label class="form-label" for="clientPhoneInput">WhatsApp / Phone Number <span style="color: #E53E3E;">*</span></label>
             <input type="tel" class="form-input" id="clientPhoneInput" placeholder="e.g. +91 98765 43210" required>
+            <span class="form-error-msg" id="clientPhoneError"></span>
           </div>
         </div>
 
@@ -1427,6 +1434,6 @@
   </div>
 
   <!-- External Script -->
-  <script defer src="script.min.js"></script>
+  <script defer src="script.js"></script>
 </body>
 </html>

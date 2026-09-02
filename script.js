@@ -374,21 +374,127 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Validation Helper for Step 5 Contact Details
+  const validateContactDetails = () => {
+    const nameInput = document.getElementById('clientNameInput');
+    const emailInput = document.getElementById('clientEmailInput');
+    const phoneInput = document.getElementById('clientPhoneInput');
+
+    const nameErr = document.getElementById('clientNameError');
+    const emailErr = document.getElementById('clientEmailError');
+    const phoneErr = document.getElementById('clientPhoneError');
+
+    let isValid = true;
+    let firstInvalidInput = null;
+
+    // Reset error styling
+    [nameInput, emailInput, phoneInput].forEach(input => {
+      if (input) input.classList.remove('error');
+    });
+    [nameErr, emailErr, phoneErr].forEach(err => {
+      if (err) {
+        err.textContent = '';
+        err.classList.remove('visible');
+      }
+    });
+
+    // Validate Name
+    const nameVal = nameInput ? nameInput.value.trim() : '';
+    if (!nameVal) {
+      if (nameInput) nameInput.classList.add('error');
+      if (nameErr) {
+        nameErr.textContent = 'Name is required.';
+        nameErr.classList.add('visible');
+      }
+      isValid = false;
+      if (!firstInvalidInput) firstInvalidInput = nameInput;
+    }
+
+    // Validate Email
+    const emailVal = emailInput ? emailInput.value.trim() : '';
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailVal) {
+      if (emailInput) emailInput.classList.add('error');
+      if (emailErr) {
+        emailErr.textContent = 'Email address is required.';
+        emailErr.classList.add('visible');
+      }
+      isValid = false;
+      if (!firstInvalidInput) firstInvalidInput = emailInput;
+    } else if (!emailRegex.test(emailVal)) {
+      if (emailInput) emailInput.classList.add('error');
+      if (emailErr) {
+        emailErr.textContent = 'Please enter a valid email address.';
+        emailErr.classList.add('visible');
+      }
+      isValid = false;
+      if (!firstInvalidInput) firstInvalidInput = emailInput;
+    }
+
+    // Validate Phone Number
+    const phoneVal = phoneInput ? phoneInput.value.trim() : '';
+    const cleanPhone = phoneVal.replace(/\D/g, '');
+    if (!phoneVal) {
+      if (phoneInput) phoneInput.classList.add('error');
+      if (phoneErr) {
+        phoneErr.textContent = 'Phone number is required.';
+        phoneErr.classList.add('visible');
+      }
+      isValid = false;
+      if (!firstInvalidInput) firstInvalidInput = phoneInput;
+    } else if (cleanPhone.length < 7) {
+      if (phoneInput) phoneInput.classList.add('error');
+      if (phoneErr) {
+        phoneErr.textContent = 'Please enter a valid phone number (at least 7 digits).';
+        phoneErr.classList.add('visible');
+      }
+      isValid = false;
+      if (!firstInvalidInput) firstInvalidInput = phoneInput;
+    }
+
+    if (!isValid && firstInvalidInput) {
+      firstInvalidInput.focus();
+      showToast('⚠️ Please fill in all required fields (Name, Email, Phone)');
+    }
+
+    return isValid;
+  };
+
+  // Clear errors dynamically on input typing
+  ['clientNameInput', 'clientEmailInput', 'clientPhoneInput'].forEach(id => {
+    const input = document.getElementById(id);
+    if (input) {
+      input.addEventListener('input', () => {
+        input.classList.remove('error');
+        const errEl = input.parentElement.querySelector('.form-error-msg');
+        if (errEl) {
+          errEl.textContent = '';
+          errEl.classList.remove('visible');
+        }
+      });
+    }
+  });
+
   if (nextStepBtn) {
     nextStepBtn.addEventListener('click', () => {
       if (currentStep < totalSteps) {
         currentStep++;
         updateStepUI();
       } else {
+        // Validate required Step 5 fields (Name, Email, Phone) before submission
+        if (!validateContactDetails()) {
+          return; // Block submission if validation fails
+        }
+
         // Form Submission Trigger
         const formData = {
           projectType: document.querySelector('.enquiry-step[data-step="1"] .option-card.selected')?.innerText?.trim() || 'New Business Website',
           budget: document.querySelector('.enquiry-step[data-step="2"] .option-card.selected')?.innerText?.trim() || 'Not specified',
           timeline: document.querySelector('.enquiry-step[data-step="3"] .option-card.selected')?.innerText?.trim() || 'Flexible',
           businessDetails: document.querySelector('#businessDetailsInput')?.value || '',
-          clientName: document.querySelector('#clientNameInput')?.value || '',
-          clientEmail: document.querySelector('#clientEmailInput')?.value || '',
-          clientPhone: document.querySelector('#clientPhoneInput')?.value || ''
+          clientName: document.querySelector('#clientNameInput')?.value.trim() || '',
+          clientEmail: document.querySelector('#clientEmailInput')?.value.trim() || '',
+          clientPhone: document.querySelector('#clientPhoneInput')?.value.trim() || ''
         };
 
         // Submit to Node / Vercel Serverless / PHP backend email API
