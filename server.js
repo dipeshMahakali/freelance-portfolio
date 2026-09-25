@@ -65,6 +65,48 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // Admin Studio Portal Route
+  if (parsedUrl.pathname === '/admin' || parsedUrl.pathname === '/admin/' || parsedUrl.pathname === '/admin/resume') {
+    const adminPath = path.join(__dirname, 'admin', 'index.html');
+    res.writeHead(200, {
+      'Content-Type': 'text/html; charset=UTF-8',
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'X-Robots-Tag': 'noindex, nofollow'
+    });
+    fs.createReadStream(adminPath).pipe(res);
+    return;
+  }
+
+  // API Endpoint: /api/upload-resume
+  if (parsedUrl.pathname === '/api/upload-resume') {
+    res.status = function(code) { res.statusCode = code; return this; };
+    res.json = function(data) {
+      if (!res.getHeader('Content-Type')) res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify(data));
+      return this;
+    };
+    return require('./api/upload-resume.js')(req, res);
+  }
+
+  // API Endpoint: /api/resume and /resume.pdf
+  if (parsedUrl.pathname === '/api/resume' || parsedUrl.pathname === '/resume.pdf') {
+    res.status = function(code) { res.statusCode = code; return this; };
+    res.json = function(data) {
+      if (!res.getHeader('Content-Type')) res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify(data));
+      return this;
+    };
+    res.send = function(data) { res.end(data); return this; };
+    res.redirect = function(statusOrUrl, targetUrl) {
+      const code = typeof statusOrUrl === 'number' ? statusOrUrl : 302;
+      const destination = typeof statusOrUrl === 'number' ? targetUrl : statusOrUrl;
+      res.writeHead(code, { Location: destination });
+      res.end();
+      return this;
+    };
+    return require('./api/resume.js')(req, res);
+  }
+
   // API Endpoint: POST /api/enquiry
   if (parsedUrl.pathname === '/api/enquiry' && req.method === 'POST') {
     let body = '';

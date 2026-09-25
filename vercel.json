@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/enquiry.js",
+      "src": "api/*.js",
       "use": "@vercel/node"
     },
     {
@@ -11,6 +11,19 @@
     }
   ],
   "headers": [
+    {
+      "source": "/admin(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
     {
       "source": "/assets/(.*)",
       "headers": [
@@ -47,6 +60,26 @@
     {
       "src": "/api/enquiry",
       "dest": "/api/enquiry.js"
+    },
+    {
+      "src": "/api/upload-resume",
+      "dest": "/api/upload-resume.js"
+    },
+    {
+      "src": "/api/resume",
+      "dest": "/api/resume.js"
+    },
+    {
+      "src": "/resume.pdf",
+      "dest": "/api/resume.js"
+    },
+    {
+      "src": "/admin",
+      "dest": "/admin/index.html"
+    },
+    {
+      "src": "/admin/resume",
+      "dest": "/admin/index.html"
     },
     {
       "src": "/(.*)",

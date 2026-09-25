@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Studio — Owner Portal</title>
+  
+  <!-- Disallow search engines completely -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #0a0b0d;
+      --card-bg: #14161a;
+      --card-border: #22262d;
+      --accent: #f59e0b;
+      --accent-hover: #d97706;
+      --accent-glow: rgba(245, 158, 11, 0.18);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.12);
+      --error: #ef4444;
+      --error-bg: rgba(239, 68, 68, 0.12);
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-heading: 'Syne', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(245, 158, 11, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.04) 0px, transparent 50%);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Container */
+    .portal-wrapper {
+      width: 100%;
+      max-width: 620px;
+      margin: auto;
+    }
+
+    /* Header Brand */
+    .brand-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #f59e0b, #b45309);
+      color: #0a0b0d;
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.25rem;
+      border-radius: 14px;
+      margin-bottom: 16px;
+      box-shadow: 0 10px 25px rgba(245, 158, 11, 0.25);
+    }
+
+    .brand-title {
+      font-family: var(--font-heading);
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .brand-subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Glass Card */
+    .studio-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 32px 28px;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+    }
+
+    .studio-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    /* Auth View */
+    .auth-view {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.825rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-field {
+      width: 100%;
+      background: #0d0f12;
+      border: 1px solid #2d333b;
+      border-radius: 12px;
+      padding: 14px 46px 14px 16px;
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .input-field:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .toggle-password-btn {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+    }
+
+    .toggle-password-btn:hover {
+      color: var(--text-main);
+    }
+
+    .btn {
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0a0b0d;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+    }
+
+    .btn-secondary {
+      background: #1f232b;
+      color: var(--text-main);
+      border: 1px solid #2d333b;
+    }
+
+    .btn-secondary:hover {
+      background: #2a303a;
+      color: #ffffff;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Dashboard View */
+    .dashboard-view {
+      display: none;
+    }
+
+    .dashboard-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      background: #191c22;
+      padding: 6px 12px;
+      border-radius: 9999px;
+      border: 1px solid #272c35;
+    }
+
+    .user-pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+    }
+
+    .logout-btn {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-size: 0.825rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: color 0.2s;
+    }
+
+    .logout-btn:hover {
+      color: var(--error);
+    }
+
+    /* Current Status Widget */
+    .status-widget {
+      background: #0d0f12;
+      border: 1px solid #22262d;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .status-widget-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .status-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 9999px;
+    }
+
+    .badge-live {
+      background: var(--success-bg);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .badge-empty {
+      background: rgba(245, 158, 11, 0.12);
+      color: var(--accent);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+
+    .file-details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .detail-item {
+      background: #14171d;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid #1f232b;
+    }
+
+    .detail-label {
+      font-size: 0.725rem;
+      color: var(--text-dim);
+      margin-bottom: 2px;
+    }
+
+    .detail-val {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .status-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .status-actions a {
+      flex: 1;
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      border-radius: 8px;
+    }
+
+    /* Drop Zone */
+    .drop-zone {
+      border: 2px dashed #2d333b;
+      border-radius: 16px;
+      padding: 36px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      background: #0d0f12;
+      position: relative;
+    }
+
+    .drop-zone:hover,
+    .drop-zone.drag-active {
+      border-color: var(--accent);
+      background: rgba(245, 158, 11, 0.03);
+      box-shadow: inset 0 0 20px var(--accent-glow);
+    }
+
+    .drop-icon-wrapper {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #181b22;
+      border: 1px solid #272c35;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px auto;
+      color: var(--accent);
+      transition: transform 0.2s;
+    }
+
+    .drop-zone:hover .drop-icon-wrapper {
+      transform: translateY(-3px) scale(1.05);
+    }
+
+    .drop-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .drop-subtitle {
+      font-size: 0.825rem;
+      color: var(--text-dim);
+      margin-bottom: 14px;
+    }
+
+    .drop-btn {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      padding: 6px 14px;
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    /* Selected File Card */
+    .selected-card {
+      display: none;
+      background: #181c24;
+      border: 1px solid #2a313d;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-top: 18px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .selected-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      overflow: hidden;
+    }
+
+    .pdf-tag {
+      background: #dc2626;
+      color: #ffffff;
+      font-size: 0.675rem;
+      font-weight: 800;
+      padding: 4px 6px;
+      border-radius: 6px;
+      letter-spacing: 0.05em;
+    }
+
+    .selected-info {
+      overflow: hidden;
+    }
+
+    .selected-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 320px;
+    }
+
+    .selected-size {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .remove-file-btn {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 6px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+    }
+
+    .remove-file-btn:hover {
+      color: var(--error);
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toast {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      animation: slideIn 0.3s ease forwards;
+      max-width: 380px;
+    }
+
+    .toast-success {
+      background: #064e3b;
+      color: #a7f3d0;
+      border: 1px solid #059669;
+    }
+
+    .toast-error {
+      background: #7f1d1d;
+      color: #fecaca;
+      border: 1px solid #dc2626;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+
+    .shake {
+      animation: shake 0.4s ease-in-out;
+    }
+
+    /* Spinner */
+    .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(0,0,0,0.2);
+      border-radius: 50%;
+      border-top-color: #000;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Footer link back */
+    .portal-footer {
+      text-align: center;
+      margin-top: 24px;
+    }
+
+    .portal-footer a {
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .portal-footer a:hover {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="portal-wrapper">
+    <div class="brand-header">
+      <div class="brand-badge">DP</div>
+      <h1 class="brand-title">Resume Studio</h1>
+      <p class="brand-subtitle">Owner Management & Document Deployment</p>
+    </div>
+
+    <!-- Main Studio Card -->
+    <div class="studio-card" id="studioCard">
+      
+      <!-- VIEW 1: AUTHENTICATION LOCKSCREEN -->
+      <div class="auth-view" id="authView">
+        <form id="authForm" onsubmit="handleAuthSubmit(event)">
+          <div class="form-group">
+            <label class="form-label" for="adminSecretInput">Owner Master Passcode</label>
+            <div class="input-wrapper">
+              <input 
+                type="password" 
+                id="adminSecretInput" 
+                class="input-field" 
+                placeholder="Enter admin secret key" 
+                autocomplete="current-password" 
+                required
+              >
+              <button type="button" class="toggle-password-btn" id="togglePasswordBtn" onclick="togglePasswordVisibility()" aria-label="Toggle password visibility">
+                👁
+              </button>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" id="loginBtn">
+            <span>Unlock Resume Studio</span> →
+          </button>
+        </form>
+      </div>
+
+      <!-- VIEW 2: RESUME DASHBOARD & UPLOADER -->
+      <div class="dashboard-view" id="dashboardView">
+        
+        <div class="dashboard-top">
+          <div class="user-pill">
+            <span class="user-pill-dot"></span>
+            <span>Dipesh Patel (Owner)</span>
+          </div>
+          <button class="logout-btn" onclick="handleLogout()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            Lock Studio
+          </button>
+        </div>
+
+        <!-- Current Live Resume Status -->
+        <div class="status-widget">
+          <div class="status-widget-header">
+            <span class="status-title">Live Resume Status</span>
+            <span class="status-badge" id="liveBadge">Checking...</span>
+          </div>
+          
+          <div class="file-details-grid">
+            <div class="detail-item">
+              <div class="detail-label">Active Document</div>
+              <div class="detail-val" id="activeFileName">—</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">File Size</div>
+              <div class="detail-val" id="activeFileSize">—</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">Last Deployed</div>
+              <div class="detail-val" id="activeFileDate">—</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">Storage Engine</div>
+              <div class="detail-val" id="activeStorage">—</div>
+            </div>
+          </div>
+
+          <div class="status-actions">
+            <a href="/api/resume" target="_blank" class="btn btn-secondary" id="previewLiveBtn" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              View Live Resume ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- Drag & Drop Uploader -->
+        <div class="drop-zone" id="dropZone" onclick="triggerFileInput()">
+          <input type="file" id="fileInput" accept="application/pdf" style="display: none;" onchange="handleFileSelect(event)">
+          <div class="drop-icon-wrapper">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+          </div>
+          <div class="drop-title">Drop your new Resume PDF here</div>
+          <div class="drop-subtitle">Only valid .PDF files supported (Maximum 10 MB)</div>
+          <span class="drop-btn">Browse Local Files</span>
+        </div>
+
+        <!-- Selected File Preview Card -->
+        <div class="selected-card" id="selectedCard">
+          <div class="selected-left">
+            <span class="pdf-tag">PDF</span>
+            <div class="selected-info">
+              <div class="selected-name" id="selectedFileName">filename.pdf</div>
+              <div class="selected-size" id="selectedFileSize">0 KB</div>
+            </div>
+          </div>
+          <button class="remove-file-btn" onclick="clearSelectedFile(event)" title="Remove selected file">✕</button>
+        </div>
+
+        <!-- Deploy Button -->
+        <div style="margin-top: 20px;">
+          <button class="btn btn-primary" id="deployBtn" onclick="handleUpload()" disabled>
+            <span>Deploy to Portfolio</span> →
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="portal-footer">
+      <a href="/">← Return to Portfolio Website</a>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    // State
+    let currentAdminSecret = sessionStorage.getItem('dp_resume_secret') || '';
+    let selectedFile = null;
+
+    // Elements
+    const authView = document.getElementById('authView');
+    const dashboardView = document.getElementById('dashboardView');
+    const studioCard = document.getElementById('studioCard');
+    const adminSecretInput = document.getElementById('adminSecretInput');
+    const loginBtn = document.getElementById('loginBtn');
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const selectedCard = document.getElementById('selectedCard');
+    const selectedFileName = document.getElementById('selectedFileName');
+    const selectedFileSize = document.getElementById('selectedFileSize');
+    const deployBtn = document.getElementById('deployBtn');
+
+    // Init: Check if already authenticated in this session
+    window.addEventListener('DOMContentLoaded', () => {
+      if (currentAdminSecret) {
+        verifySecretAndOpenDashboard(currentAdminSecret);
+      }
+    });
+
+    // Toggle Password Visibility
+    function togglePasswordVisibility() {
+      const isPass = adminSecretInput.type === 'password';
+      adminSecretInput.type = isPass ? 'text' : 'password';
+      document.getElementById('togglePasswordBtn').textContent = isPass ? '🔒' : '👁';
+    }
+
+    // Format bytes
+    function formatBytes(bytes) {
+      if (!bytes || bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // Toast
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.innerHTML = `
+        <span>${type === 'success' ? '✅' : '⚠️'}</span>
+        <span>${message}</span>
+      `;
+      document.getElementById('toastContainer').appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    // Authenticate Submit
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      const secret = adminSecretInput.value.trim();
+      if (!secret) return;
+
+      loginBtn.disabled = true;
+      loginBtn.innerHTML = `<span class="spinner"></span> Verifying...`;
+
+      const valid = await verifySecretAndOpenDashboard(secret);
+      loginBtn.disabled = false;
+      loginBtn.innerHTML = `<span>Unlock Resume Studio</span> →`;
+
+      if (!valid) {
+        studioCard.classList.add('shake');
+        setTimeout(() => studioCard.classList.remove('shake'), 500);
+        showToast('Invalid passcode. Access denied.', 'error');
+      }
+    }
+
+    // Verify Secret
+    async function verifySecretAndOpenDashboard(secret) {
+      try {
+        const res = await fetch('/api/upload-resume', {
+          method: 'GET',
+          headers: { 'x-admin-secret': secret }
+        });
+
+        if (res.status === 401) {
+          sessionStorage.removeItem('dp_resume_secret');
+          return false;
+        }
+
+        const data = await res.json();
+        if (data.success) {
+          currentAdminSecret = secret;
+          sessionStorage.setItem('dp_resume_secret', secret);
+          authView.style.display = 'none';
+          dashboardView.style.display = 'block';
+          updateDashboardStatus(data);
+          return true;
+        }
+        return false;
+      } catch (err) {
+        showToast('Connection error: ' + err.message, 'error');
+        return false;
+      }
+    }
+
+    // Update Dashboard UI with fetched status
+    function updateDashboardStatus(data) {
+      const liveBadge = document.getElementById('liveBadge');
+      const activeFileName = document.getElementById('activeFileName');
+      const activeFileSize = document.getElementById('activeFileSize');
+      const activeFileDate = document.getElementById('activeFileDate');
+      const activeStorage = document.getElementById('activeStorage');
+      const previewLiveBtn = document.getElementById('previewLiveBtn');
+
+      if (data.hasResume) {
+        liveBadge.className = 'status-badge badge-live';
+        liveBadge.innerHTML = '● Live on Portfolio';
+        activeFileName.textContent = data.originalName || 'Dipesh_Patel_Resume.pdf';
+        activeFileSize.textContent = formatBytes(data.size);
+        activeFileDate.textContent = data.uploadedAt ? new Date(data.uploadedAt).toLocaleDateString(undefined, {
+          month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'
+        }) : 'Recent';
+        activeStorage.textContent = data.storageType === 'vercel-blob' ? 'Vercel Blob (CDN)' : 'Local File';
+        previewLiveBtn.style.display = 'inline-flex';
+      } else {
+        liveBadge.className = 'status-badge badge-empty';
+        liveBadge.innerHTML = '○ Not Uploaded Yet';
+        activeFileName.textContent = 'None';
+        activeFileSize.textContent = '—';
+        activeFileDate.textContent = '—';
+        activeStorage.textContent = '—';
+        previewLiveBtn.style.display = 'none';
+      }
+    }
+
+    // Refresh Status
+    async function refreshStatus() {
+      if (!currentAdminSecret) return;
+      try {
+        const res = await fetch('/api/upload-resume', {
+          headers: { 'x-admin-secret': currentAdminSecret }
+        });
+        const data = await res.json();
+        if (data.success) updateDashboardStatus(data);
+      } catch (e) {}
+    }
+
+    // Logout
+    function handleLogout() {
+      sessionStorage.removeItem('dp_resume_secret');
+      currentAdminSecret = '';
+      clearSelectedFile();
+      dashboardView.style.display = 'none';
+      authView.style.display = 'block';
+      adminSecretInput.value = '';
+      showToast('Resume Studio locked.', 'success');
+    }
+
+    // File Selection & Drag-and-Drop
+    function triggerFileInput() {
+      fileInput.click();
+    }
+
+    function handleFileSelect(e) {
+      const file = e.target.files && e.target.files[0];
+      if (file) validateAndSetFile(file);
+    }
+
+    function validateAndSetFile(file) {
+      if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+        showToast('Please select a valid PDF document.', 'error');
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        showToast('File size must be under 10 MB.', 'error');
+        return;
+      }
+
+      selectedFile = file;
+      selectedFileName.textContent = file.name;
+      selectedFileSize.textContent = formatBytes(file.size);
+      selectedCard.style.display = 'flex';
+      deployBtn.disabled = false;
+    }
+
+    function clearSelectedFile(e) {
+      if (e) e.stopPropagation();
+      selectedFile = null;
+      fileInput.value = '';
+      selectedCard.style.display = 'none';
+      deployBtn.disabled = true;
+    }
+
+    // Drag events
+    ['dragenter', 'dragover'].forEach(name => {
+      dropZone.addEventListener(name, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZone.classList.add('drag-active');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(name => {
+      dropZone.addEventListener(name, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZone.classList.remove('drag-active');
+      });
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const file = dt.files && dt.files[0];
+      if (file) validateAndSetFile(file);
+    });
+
+    // Upload & Deploy
+    async function handleUpload() {
+      if (!selectedFile || !currentAdminSecret) return;
+
+      deployBtn.disabled = true;
+      deployBtn.innerHTML = `<span class="spinner"></span> Deploying to Portfolio...`;
+
+      try {
+        const res = await fetch('/api/upload-resume', {
+          method: 'POST',
+          headers: {
+            'x-admin-secret': currentAdminSecret,
+            'Content-Type': 'application/pdf',
+            'x-file-name': selectedFile.name
+          },
+          body: selectedFile
+        });
+
+        const data = await res.json();
+
+        if (res.status === 401) {
+          showToast('Session expired or unauthorized. Please re-login.', 'error');
+          handleLogout();
+          return;
+        }
+
+        if (!res.ok || !data.success) {
+          throw new Error(data.error || 'Failed to upload resume.');
+        }
+
+        showToast('🎉 Resume successfully published to your live portfolio!', 'success');
+        clearSelectedFile();
+        await refreshStatus();
+
+      } catch (err) {
+        showToast(err.message, 'error');
+      } finally {
+        deployBtn.disabled = !selectedFile;
+        deployBtn.innerHTML = `<span>Deploy to Portfolio</span> →`;
+      }
+    }
+  </script>
+</body>
+</html>

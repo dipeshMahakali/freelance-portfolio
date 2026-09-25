@@ -668,4 +668,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initIframeLazyLoading();
 
+  // Owner Secret Shortcut: Ctrl+Shift+U or Cmd+Shift+U to open Resume Admin Studio
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'U' || e.key === 'u')) {
+      e.preventDefault();
+      window.open('/admin', '_blank');
+    }
+  });
+
 });
+

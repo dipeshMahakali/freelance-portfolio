@@ -223,6 +223,78 @@ h1, h2, h3, h4, .font-heading {
   transform: translateY(-2px);
 }
 
+.btn-resume {
+  background-color: transparent;
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  gap: 8px;
+}
+
+.btn-resume:hover {
+  background-color: var(--bg-secondary);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px var(--accent-glow);
+}
+
+.btn-resume svg {
+  stroke: currentColor;
+  transition: transform 0.25s ease;
+}
+
+.btn-resume:hover svg {
+  transform: translateY(2px);
+}
+
+.nav-resume-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  font-size: 0.825rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.nav-resume-link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--bg-surface);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--accent-glow);
+}
+
+.nav-resume-link svg {
+  stroke: currentColor;
+  transition: transform 0.2s ease;
+}
+
+.nav-resume-link:hover svg {
+  transform: translateY(1.5px);
+}
+
+.admin-stealth-link {
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.12;
+  transition: opacity 0.2s, color 0.2s;
+  font-size: 0.85rem;
+  margin-left: 6px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.admin-stealth-link:hover {
+  opacity: 0.75;
+  color: var(--accent);
+}
+
 .btn-whatsapp {
   background-color: #25D366;
   color: #FFFFFF;
