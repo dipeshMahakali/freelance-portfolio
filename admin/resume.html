@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Resume Studio — Owner Portal</title>
   
   <!-- Disallow search engines completely -->
@@ -149,7 +149,7 @@
       border-radius: 12px;
       padding: 14px 46px 14px 16px;
       color: #ffffff;
-      font-size: 0.95rem;
+      font-size: 16px; /* 16px prevents iOS Safari auto-zoom on mobile */
       font-family: inherit;
       transition: all 0.2s ease;
       outline: none;
@@ -173,7 +173,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 4px;
+      padding: 8px;
     }
 
     .toggle-password-btn:hover {
@@ -182,6 +182,7 @@
 
     .btn {
       width: 100%;
+      min-height: 48px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -195,6 +196,7 @@
       border: none;
       transition: all 0.2s ease;
       text-decoration: none;
+      touch-action: manipulation;
     }
 
     .btn-primary {
@@ -235,7 +237,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       padding-bottom: 16px;
       border-bottom: 1px solid var(--card-border);
     }
@@ -269,13 +271,64 @@
       display: flex;
       align-items: center;
       gap: 5px;
-      padding: 4px 8px;
+      padding: 6px 10px;
       border-radius: 6px;
       transition: color 0.2s;
     }
 
     .logout-btn:hover {
       color: var(--error);
+    }
+
+    /* Cloud Storage Setup Guidance Banner */
+    .storage-banner {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 22px;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .storage-banner-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .storage-banner-icon {
+      font-size: 1.25rem;
+    }
+
+    .storage-banner-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fbbf24;
+    }
+
+    .storage-banner-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .storage-banner-steps {
+      margin: 10px 0 10px 20px;
+      font-size: 0.8rem;
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    .storage-banner-steps a {
+      color: #fbbf24;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    .storage-banner-steps strong {
+      color: #ffffff;
     }
 
     /* Current Status Widget */
@@ -360,21 +413,22 @@
 
     .status-actions a {
       flex: 1;
-      padding: 8px 12px;
-      font-size: 0.8rem;
+      padding: 10px 14px;
+      font-size: 0.85rem;
       border-radius: 8px;
     }
 
-    /* Drop Zone */
+    /* Drop Zone / Tap Zone */
     .drop-zone {
       border: 2px dashed #2d333b;
       border-radius: 16px;
-      padding: 36px 20px;
+      padding: 34px 20px;
       text-align: center;
       cursor: pointer;
       transition: all 0.25s ease;
       background: #0d0f12;
       position: relative;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .drop-zone:hover,
@@ -422,7 +476,7 @@
       color: var(--accent);
       background: rgba(245, 158, 11, 0.1);
       border: 1px solid rgba(245, 158, 11, 0.25);
-      padding: 6px 14px;
+      padding: 8px 16px;
       border-radius: 8px;
       pointer-events: none;
     }
@@ -454,6 +508,7 @@
       padding: 4px 6px;
       border-radius: 6px;
       letter-spacing: 0.05em;
+      flex-shrink: 0;
     }
 
     .selected-info {
@@ -481,10 +536,10 @@
       color: var(--text-dim);
       cursor: pointer;
       font-size: 1.1rem;
-      padding: 6px;
+      padding: 8px;
       border-radius: 6px;
       display: flex;
-      align-items: center;
+      align-items: flex-shrink: 0;
     }
 
     .remove-file-btn:hover {
@@ -533,6 +588,11 @@
       to { transform: translateX(0); opacity: 1; }
     }
 
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
       20%, 60% { transform: translateX(-8px); }
@@ -573,6 +633,42 @@
 
     .portal-footer a:hover {
       color: var(--accent);
+    }
+
+    /* Responsive for Mobile Devices */
+    @media (max-width: 600px) {
+      body {
+        padding: 16px 12px;
+      }
+      .portal-wrapper {
+        max-width: 100%;
+      }
+      .studio-card {
+        padding: 24px 18px;
+        border-radius: 16px;
+      }
+      .brand-title {
+        font-size: 1.4rem;
+      }
+      .file-details-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .drop-zone {
+        padding: 26px 14px;
+      }
+      .toast-container {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+      }
+      .toast {
+        max-width: 100%;
+        font-size: 0.825rem;
+      }
+      .selected-name {
+        max-width: 200px;
+      }
     }
   </style>
 </head>
@@ -627,6 +723,25 @@
           </button>
         </div>
 
+        <!-- Vercel Blob Configuration Guidance Banner -->
+        <div class="storage-banner" id="storageBanner">
+          <div class="storage-banner-header">
+            <span class="storage-banner-icon">⚡</span>
+            <span class="storage-banner-title">Action Required: Connect Vercel Blob</span>
+          </div>
+          <p class="storage-banner-desc">
+            Vercel serverless functions use a read-only filesystem. To upload and host your resume permanently from any device (phone or computer):
+          </p>
+          <ol class="storage-banner-steps">
+            <li>Go to your <a href="https://vercel.com/dashboard" target="_blank" rel="noopener">Vercel Dashboard</a> and select this project.</li>
+            <li>Click the <strong>Storage</strong> tab → <strong>Create Database</strong> → select <strong>Blob</strong>.</li>
+            <li>Click <strong>Connect to Project</strong>. That's it! (Vercel automatically sets the token).</li>
+          </ol>
+          <p class="storage-banner-desc" style="font-size: 0.75rem; color: #fbbf24;">
+            Once connected, refresh this page to upload resumes anytime from any phone or computer.
+          </p>
+        </div>
+
         <!-- Current Live Resume Status -->
         <div class="status-widget">
           <div class="status-widget-header">
@@ -661,9 +776,9 @@
           </div>
         </div>
 
-        <!-- Drag & Drop Uploader -->
+        <!-- Drag & Drop / Tap-to-Browse Uploader -->
         <div class="drop-zone" id="dropZone" onclick="triggerFileInput()">
-          <input type="file" id="fileInput" accept="application/pdf" style="display: none;" onchange="handleFileSelect(event)">
+          <input type="file" id="fileInput" accept="application/pdf, .pdf" style="display: none;" onchange="handleFileSelect(event)">
           <div class="drop-icon-wrapper">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -671,9 +786,9 @@
               <line x1="12" y1="3" x2="12" y2="15"></line>
             </svg>
           </div>
-          <div class="drop-title">Drop your new Resume PDF here</div>
-          <div class="drop-subtitle">Only valid .PDF files supported (Maximum 10 MB)</div>
-          <span class="drop-btn">Browse Local Files</span>
+          <div class="drop-title" id="dropTitle">Tap or drop your new Resume PDF here</div>
+          <div class="drop-subtitle">Only valid .PDF files supported (Maximum 4.5 MB)</div>
+          <span class="drop-btn">Browse Device Files</span>
         </div>
 
         <!-- Selected File Preview Card -->
@@ -761,7 +876,7 @@
         toast.style.transform = 'translateY(10px)';
         toast.style.transition = 'all 0.3s ease';
         setTimeout(() => toast.remove(), 300);
-      }, 4000);
+      }, 5000);
     }
 
     // Authenticate Submit
@@ -821,6 +936,14 @@
       const activeFileDate = document.getElementById('activeFileDate');
       const activeStorage = document.getElementById('activeStorage');
       const previewLiveBtn = document.getElementById('previewLiveBtn');
+      const storageBanner = document.getElementById('storageBanner');
+
+      // Check if Cloud Storage setup is needed on Vercel
+      if (data.isVercel && !data.cloudConnected) {
+        if (storageBanner) storageBanner.style.display = 'block';
+      } else {
+        if (storageBanner) storageBanner.style.display = 'none';
+      }
 
       if (data.hasResume) {
         liveBadge.className = 'status-badge badge-live';
@@ -830,7 +953,16 @@
         activeFileDate.textContent = data.uploadedAt ? new Date(data.uploadedAt).toLocaleDateString(undefined, {
           month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'
         }) : 'Recent';
-        activeStorage.textContent = data.storageType === 'vercel-blob' ? 'Vercel Blob (CDN)' : 'Local File';
+        
+        if (data.storageType === 'vercel-blob') {
+          activeStorage.textContent = '🟢 Vercel Blob (Cloud CDN)';
+        } else if (data.cloudConnected) {
+          activeStorage.textContent = '🟢 Vercel Blob Ready';
+        } else if (data.isVercel) {
+          activeStorage.textContent = '⚠️ Static Build (Cloud needed)';
+        } else {
+          activeStorage.textContent = '💻 Local Dev Disk';
+        }
         previewLiveBtn.style.display = 'inline-flex';
       } else {
         liveBadge.className = 'status-badge badge-empty';
@@ -838,7 +970,7 @@
         activeFileName.textContent = 'None';
         activeFileSize.textContent = '—';
         activeFileDate.textContent = '—';
-        activeStorage.textContent = '—';
+        activeStorage.textContent = data.cloudConnected ? '🟢 Vercel Blob Ready' : '—';
         previewLiveBtn.style.display = 'none';
       }
     }
@@ -877,12 +1009,13 @@
     }
 
     function validateAndSetFile(file) {
-      if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+      const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+      if (!isPdf) {
         showToast('Please select a valid PDF document.', 'error');
         return;
       }
-      if (file.size > 10 * 1024 * 1024) {
-        showToast('File size must be under 10 MB.', 'error');
+      if (file.size > 4.5 * 1024 * 1024) {
+        showToast('File size must be under 4.5 MB for cloud deployment. Please compress your PDF.', 'error');
         return;
       }
 
@@ -937,7 +1070,7 @@
           headers: {
             'x-admin-secret': currentAdminSecret,
             'Content-Type': 'application/pdf',
-            'x-file-name': selectedFile.name
+            'x-file-name': encodeURIComponent(selectedFile.name)
           },
           body: selectedFile
         });
@@ -951,6 +1084,10 @@
         }
 
         if (!res.ok || !data.success) {
+          if (data.needsConfig) {
+            const banner = document.getElementById('storageBanner');
+            if (banner) banner.style.display = 'block';
+          }
           throw new Error(data.error || 'Failed to upload resume.');
         }
 

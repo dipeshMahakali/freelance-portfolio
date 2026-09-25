@@ -18,8 +18,17 @@ function isAuthorized(req) {
   return (token && token === adminSecret) || (customHeader && customHeader === adminSecret);
 }
 
-// Helper to read incoming stream into Buffer
-function readStream(req) {
+// Helper to safely read incoming request body into Buffer (handles both streams and pre-parsed bodies)
+async function getRawBody(req) {
+  if (Buffer.isBuffer(req.body)) {
+    return req.body;
+  }
+  if (typeof req.body === 'string') {
+    return Buffer.from(req.body, 'binary');
+  }
+  if (req.body && typeof req.body === 'object' && req.body.data) {
+    return Buffer.from(req.body.data);
+  }
   return new Promise((resolve, reject) => {
     const chunks = [];
     req.on('data', chunk => chunks.push(chunk));
@@ -47,6 +56,7 @@ module.exports = async (req, res) => {
   }
 
   const hasBlobToken = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+  const isVercel = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
 
   // -------------------------------------------------------------
   // GET: Check current resume status & metadata
@@ -54,22 +64,28 @@ module.exports = async (req, res) => {
   if (req.method === 'GET') {
     try {
       if (hasBlobToken) {
-        const { list } = require('@vercel/blob');
-        const response = await list({ prefix: 'resumes/Dipesh_Patel_Resume' });
-        if (response.blobs && response.blobs.length > 0) {
-          // Sort newest first
-          const sorted = response.blobs.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
-          const latest = sorted[0];
-          return res.status(200).json({
-            success: true,
-            hasResume: true,
-            storageType: 'vercel-blob',
-            url: latest.url,
-            downloadUrl: latest.downloadUrl || latest.url,
-            pathname: latest.pathname,
-            size: latest.size,
-            uploadedAt: latest.uploadedAt
-          });
+        try {
+          const { list } = require('@vercel/blob');
+          const response = await list({ prefix: 'resumes/Dipesh_Patel_Resume' });
+          if (response.blobs && response.blobs.length > 0) {
+            // Sort newest first
+            const sorted = response.blobs.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
+            const latest = sorted[0];
+            return res.status(200).json({
+              success: true,
+              hasResume: true,
+              storageType: 'vercel-blob',
+              cloudConnected: true,
+              isVercel,
+              url: latest.url,
+              downloadUrl: latest.downloadUrl || latest.url,
+              pathname: latest.pathname,
+              size: latest.size,
+              uploadedAt: latest.uploadedAt
+            });
+          }
+        } catch (blobErr) {
+          console.warn('Vercel Blob list error:', blobErr.message);
         }
       }
 
@@ -87,6 +103,8 @@ module.exports = async (req, res) => {
           success: true,
           hasResume: true,
           storageType: 'local-static',
+          cloudConnected: hasBlobToken,
+          isVercel,
           url: '/assets/resume.pdf',
           size: stat.size,
           uploadedAt: meta.uploadedAt || stat.mtime.toISOString(),
@@ -97,6 +115,8 @@ module.exports = async (req, res) => {
       return res.status(200).json({
         success: true,
         hasResume: false,
+        cloudConnected: hasBlobToken,
+        isVercel,
         message: 'No resume has been uploaded yet.'
       });
     } catch (err) {
@@ -110,52 +130,68 @@ module.exports = async (req, res) => {
   // -------------------------------------------------------------
   if (req.method === 'POST') {
     try {
-      const buffer = await readStream(req);
+      const buffer = await getRawBody(req);
 
       if (!buffer || buffer.length === 0) {
         return res.status(400).json({ success: false, error: 'Empty file payload received.' });
       }
 
-      // Check max size (10MB limit)
-      if (buffer.length > 10 * 1024 * 1024) {
-        return res.status(400).json({ success: false, error: 'File size exceeds maximum limit of 10MB.' });
+      // Check max size (Vercel Serverless Function payload limit is 4.5MB)
+      const MAX_SIZE = 4.5 * 1024 * 1024;
+      if (buffer.length > MAX_SIZE) {
+        return res.status(400).json({
+          success: false,
+          error: `File size (${(buffer.length / (1024 * 1024)).toFixed(1)} MB) exceeds the maximum serverless limit of 4.5 MB. Please compress your PDF before uploading.`
+        });
       }
 
-      // Validate PDF signature: starts with %PDF- (hex: 25 50 44 46 2d)
-      const headerString = buffer.slice(0, 5).toString('ascii');
-      if (!headerString.startsWith('%PDF-')) {
+      // Validate PDF signature (ISO 32000-1 specification: %PDF- within the first 1024 bytes)
+      const headerChunk = buffer.slice(0, 1024).toString('binary');
+      if (!headerChunk.includes('%PDF-')) {
         return res.status(400).json({
           success: false,
           error: 'Invalid file format. Uploaded file is not a valid PDF document.'
         });
       }
 
-      const originalName = req.headers['x-file-name'] || 'Dipesh_Patel_Resume.pdf';
+      // Decode file name safely from custom header
+      let originalName = 'Dipesh_Patel_Resume.pdf';
+      if (req.headers['x-file-name']) {
+        try {
+          originalName = decodeURIComponent(req.headers['x-file-name']);
+        } catch (e) {
+          originalName = req.headers['x-file-name'];
+        }
+      }
       const now = new Date().toISOString();
 
-      // If Vercel Blob is configured:
+      // If Vercel Blob is configured (production persistent cloud storage):
       if (hasBlobToken) {
         const { put, list, del } = require('@vercel/blob');
 
-        // Clean up previous blobs to keep storage clean
-        try {
-          const prev = await list({ prefix: 'resumes/Dipesh_Patel_Resume' });
-          if (prev.blobs && prev.blobs.length > 0) {
-            await del(prev.blobs.map(b => b.url));
-          }
-        } catch (cleanupErr) {
-          console.warn('Could not clean old blobs:', cleanupErr.message);
-        }
-
-        const blob = await put(`resumes/Dipesh_Patel_Resume.pdf`, buffer, {
+        // 1. Upload new blob first so existing resume remains available during upload
+        const blob = await put('resumes/Dipesh_Patel_Resume.pdf', buffer, {
           access: 'public',
           contentType: 'application/pdf',
           addRandomSuffix: true
         });
 
+        // 2. Clean up older blobs after successful upload
+        try {
+          const prev = await list({ prefix: 'resumes/Dipesh_Patel_Resume' });
+          if (prev.blobs && prev.blobs.length > 1) {
+            const oldBlobs = prev.blobs.filter(b => b.url !== blob.url);
+            if (oldBlobs.length > 0) {
+              await del(oldBlobs.map(b => b.url));
+            }
+          }
+        } catch (cleanupErr) {
+          console.warn('Could not clean old blobs:', cleanupErr.message);
+        }
+
         return res.status(200).json({
           success: true,
-          message: 'Resume PDF uploaded to Vercel Blob and published successfully!',
+          message: 'Resume PDF uploaded to Vercel Blob CDN and published successfully!',
           storageType: 'vercel-blob',
           url: blob.url,
           downloadUrl: blob.downloadUrl || blob.url,
@@ -165,7 +201,16 @@ module.exports = async (req, res) => {
         });
       }
 
-      // Fallback: Save to assets directory
+      // If on Vercel or AWS Lambda and BLOB_READ_WRITE_TOKEN is missing:
+      if (isVercel) {
+        return res.status(422).json({
+          success: false,
+          needsConfig: true,
+          error: 'Vercel Blob storage is not connected yet. Vercel serverless functions have a read-only filesystem (EROFS), so persistent uploads require Vercel Blob. Please connect a Blob store in your Vercel Project Dashboard (Storage → Create Database → Blob) to enable 1-click cloud uploads from any device.'
+        });
+      }
+
+      // Fallback for Local Development (node server.js): Save to assets directory
       const assetsDir = path.join(process.cwd(), 'assets');
       if (!fs.existsSync(assetsDir)) {
         fs.mkdirSync(assetsDir, { recursive: true });
@@ -183,7 +228,7 @@ module.exports = async (req, res) => {
 
       return res.status(200).json({
         success: true,
-        message: 'Resume PDF saved successfully!',
+        message: 'Resume PDF saved successfully to local assets!',
         storageType: 'local-static',
         url: '/assets/resume.pdf',
         size: buffer.length,
@@ -198,4 +243,3 @@ module.exports = async (req, res) => {
 
   return res.status(405).json({ success: false, error: 'Method Not Allowed' });
 };
-

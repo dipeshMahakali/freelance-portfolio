@@ -20,17 +20,26 @@ module.exports = async (req, res) => {
   const hasBlobToken = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 
   try {
-    // 1. Try Vercel Blob
+    // 1. Try Vercel Blob (Cloud Storage)
     if (hasBlobToken) {
-      const { list } = require('@vercel/blob');
-      const response = await list({ prefix: 'resumes/Dipesh_Patel_Resume' });
-      if (response.blobs && response.blobs.length > 0) {
-        const sorted = response.blobs.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
-        const latest = sorted[0];
+      try {
+        const { list } = require('@vercel/blob');
+        const response = await list({ prefix: 'resumes/Dipesh_Patel_Resume' });
+        if (response.blobs && response.blobs.length > 0) {
+          const sorted = response.blobs.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
+          const latest = sorted[0];
 
-        // 302 Redirect to the CDN blob URL
-        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-        return res.redirect(302, latest.downloadUrl || latest.url);
+          // Check if direct download was requested
+          const urlObj = req.url ? new URL(req.url, 'http://localhost') : { searchParams: new URLSearchParams() };
+          const wantsDownload = urlObj.searchParams.get('download') === '1' || (req.query && (req.query.download === '1' || req.query.download === 'true'));
+          const targetUrl = wantsDownload ? (latest.downloadUrl || latest.url) : (latest.url || latest.downloadUrl);
+
+          // Short cache so updates propagate quickly across CDN
+          res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=60');
+          return res.redirect(302, targetUrl);
+        }
+      } catch (blobErr) {
+        console.warn('Vercel Blob fetch error, falling back to static asset:', blobErr.message);
       }
     }
 
@@ -80,4 +89,3 @@ module.exports = async (req, res) => {
     return res.status(500).json({ success: false, error: err.message });
   }
 };
-
