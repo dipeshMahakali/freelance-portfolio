@@ -37,6 +37,27 @@ async function getRawBody(req) {
   });
 }
 
+// Helper to discover any Vercel Blob read-write token across common naming variations
+function getBlobTokenInfo() {
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    return { token: process.env.BLOB_READ_WRITE_TOKEN.trim(), keyName: 'BLOB_READ_WRITE_TOKEN' };
+  }
+  if (process.env.VERCEL_BLOB_READ_WRITE_TOKEN) {
+    return { token: process.env.VERCEL_BLOB_READ_WRITE_TOKEN.trim(), keyName: 'VERCEL_BLOB_READ_WRITE_TOKEN' };
+  }
+
+  // Scan process.env for any key ending in _READ_WRITE_TOKEN or containing BLOB_READ_WRITE / BLOB_TOKEN
+  const envKeys = Object.keys(process.env);
+  for (const key of envKeys) {
+    const upper = key.toUpperCase();
+    if ((upper.endsWith('_READ_WRITE_TOKEN') || upper.includes('BLOB_READ_WRITE') || upper.includes('BLOB_TOKEN')) && process.env[key]) {
+      return { token: process.env[key].trim(), keyName: key };
+    }
+  }
+
+  return { token: null, keyName: null };
+}
+
 module.exports = async (req, res) => {
   // CORS Headers
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -55,7 +76,8 @@ module.exports = async (req, res) => {
     });
   }
 
-  const hasBlobToken = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+  const { token: blobToken, keyName: tokenKeyName } = getBlobTokenInfo();
+  const hasBlobToken = Boolean(blobToken);
   const isVercel = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
 
   // -------------------------------------------------------------
@@ -63,10 +85,11 @@ module.exports = async (req, res) => {
   // -------------------------------------------------------------
   if (req.method === 'GET') {
     try {
+      let blobError = null;
       if (hasBlobToken) {
         try {
           const { list } = require('@vercel/blob');
-          const response = await list({ prefix: 'resumes/Dipesh_Patel_Resume' });
+          const response = await list({ prefix: 'resumes/Dipesh_Patel_Resume', token: blobToken });
           if (response.blobs && response.blobs.length > 0) {
             // Sort newest first
             const sorted = response.blobs.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
@@ -76,6 +99,7 @@ module.exports = async (req, res) => {
               hasResume: true,
               storageType: 'vercel-blob',
               cloudConnected: true,
+              tokenKeyName,
               isVercel,
               url: latest.url,
               downloadUrl: latest.downloadUrl || latest.url,
@@ -86,6 +110,7 @@ module.exports = async (req, res) => {
           }
         } catch (blobErr) {
           console.warn('Vercel Blob list error:', blobErr.message);
+          blobError = blobErr.message;
         }
       }
 
@@ -104,6 +129,8 @@ module.exports = async (req, res) => {
           hasResume: true,
           storageType: 'local-static',
           cloudConnected: hasBlobToken,
+          tokenKeyName,
+          blobError,
           isVercel,
           url: '/assets/resume.pdf',
           size: stat.size,
@@ -116,6 +143,8 @@ module.exports = async (req, res) => {
         success: true,
         hasResume: false,
         cloudConnected: hasBlobToken,
+        tokenKeyName,
+        blobError,
         isVercel,
         message: 'No resume has been uploaded yet.'
       });
@@ -173,16 +202,17 @@ module.exports = async (req, res) => {
         const blob = await put('resumes/Dipesh_Patel_Resume.pdf', buffer, {
           access: 'public',
           contentType: 'application/pdf',
-          addRandomSuffix: true
+          addRandomSuffix: true,
+          token: blobToken
         });
 
         // 2. Clean up older blobs after successful upload
         try {
-          const prev = await list({ prefix: 'resumes/Dipesh_Patel_Resume' });
+          const prev = await list({ prefix: 'resumes/Dipesh_Patel_Resume', token: blobToken });
           if (prev.blobs && prev.blobs.length > 1) {
             const oldBlobs = prev.blobs.filter(b => b.url !== blob.url);
             if (oldBlobs.length > 0) {
-              await del(oldBlobs.map(b => b.url));
+              await del(oldBlobs.map(b => b.url), { token: blobToken });
             }
           }
         } catch (cleanupErr) {
@@ -193,6 +223,8 @@ module.exports = async (req, res) => {
           success: true,
           message: 'Resume PDF uploaded to Vercel Blob CDN and published successfully!',
           storageType: 'vercel-blob',
+          cloudConnected: true,
+          tokenKeyName,
           url: blob.url,
           downloadUrl: blob.downloadUrl || blob.url,
           size: buffer.length,
@@ -201,12 +233,12 @@ module.exports = async (req, res) => {
         });
       }
 
-      // If on Vercel or AWS Lambda and BLOB_READ_WRITE_TOKEN is missing:
+      // If on Vercel or AWS Lambda and blob token is missing:
       if (isVercel) {
         return res.status(422).json({
           success: false,
           needsConfig: true,
-          error: 'Vercel Blob storage is not connected yet. Vercel serverless functions have a read-only filesystem (EROFS), so persistent uploads require Vercel Blob. Please connect a Blob store in your Vercel Project Dashboard (Storage → Create Database → Blob) to enable 1-click cloud uploads from any device.'
+          error: 'Vercel Blob token is not detected in this active deployment. If you already connected Blob in Vercel Dashboard, please REDEPLOY your project in Vercel (Deployments → ··· → Redeploy) so the active serverless container can receive the new token.'
         });
       }
 

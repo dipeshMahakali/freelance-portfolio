@@ -728,19 +728,24 @@
         <div class="storage-banner" id="storageBanner">
           <div class="storage-banner-header">
             <span class="storage-banner-icon">⚡</span>
-            <span class="storage-banner-title">Action Required: Connect Vercel Blob</span>
+            <span class="storage-banner-title" id="storageBannerTitle">Vercel Blob Activation: Redeploy Required</span>
           </div>
-          <p class="storage-banner-desc">
-            Vercel serverless functions use a read-only filesystem. To upload and host your resume permanently from any device (phone or computer):
+          <p class="storage-banner-desc" id="storageBannerDesc">
+            If you already connected Vercel Blob in your dashboard, <strong>Vercel requires a Redeploy</strong> to inject the storage token into running serverless functions:
           </p>
           <ol class="storage-banner-steps">
-            <li>Go to your <a href="https://vercel.com/dashboard" target="_blank" rel="noopener">Vercel Dashboard</a> and select this project.</li>
-            <li>Click the <strong>Storage</strong> tab → <strong>Create Database</strong> → select <strong>Blob</strong>.</li>
-            <li>Click <strong>Connect to Project</strong>. That's it! (Vercel automatically sets the token).</li>
+            <li>Open your <a href="https://vercel.com/dashboard" target="_blank" rel="noopener">Vercel Dashboard</a> and go to the <strong>Deployments</strong> tab.</li>
+            <li>Click the three dots (<strong>···</strong>) next to the latest deployment → click <strong>Redeploy</strong>.</li>
+            <li>Once redeployed (~30 seconds), click <strong>Re-check Connection</strong> below!</li>
           </ol>
-          <p class="storage-banner-desc" style="font-size: 0.75rem; color: #fbbf24;">
-            Once connected, refresh this page to upload resumes anytime from any phone or computer.
-          </p>
+          <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 10px; line-height: 1.5;">
+            💡 <em>Note: If you haven't created the Blob store yet, go to <strong>Storage → Create Database → Blob → Connect to Project</strong>, then redeploy.</em>
+          </div>
+          <div style="margin-top: 14px; display: flex; gap: 10px;">
+            <button type="button" class="btn btn-secondary" onclick="refreshStatus()" style="font-size: 0.8rem; padding: 8px 16px; min-height: 38px; width: auto; display: inline-flex; align-items: center; gap: 6px;">
+              <span>🔄</span> <span>Re-check Connection</span>
+            </button>
+          </div>
         </div>
 
         <!-- Current Live Resume Status -->
@@ -956,11 +961,11 @@
         }) : 'Recent';
         
         if (data.storageType === 'vercel-blob') {
-          activeStorage.textContent = '🟢 Vercel Blob (Cloud CDN)';
+          activeStorage.textContent = '🟢 Vercel Blob (' + (data.tokenKeyName || 'Cloud CDN') + ')';
         } else if (data.cloudConnected) {
-          activeStorage.textContent = '🟢 Vercel Blob Ready';
+          activeStorage.textContent = '🟢 Vercel Blob Ready (' + (data.tokenKeyName || 'Active') + ')';
         } else if (data.isVercel) {
-          activeStorage.textContent = '⚠️ Static Build (Cloud needed)';
+          activeStorage.textContent = '⚠️ Static Build (Redeploy needed)';
         } else {
           activeStorage.textContent = '💻 Local Dev Disk';
         }
@@ -971,7 +976,7 @@
         activeFileName.textContent = 'None';
         activeFileSize.textContent = '—';
         activeFileDate.textContent = '—';
-        activeStorage.textContent = data.cloudConnected ? '🟢 Vercel Blob Ready' : '—';
+        activeStorage.textContent = data.cloudConnected ? '🟢 Vercel Blob Ready (' + (data.tokenKeyName || 'Active') + ')' : '—';
         previewLiveBtn.style.display = 'none';
       }
     }
@@ -984,8 +989,17 @@
           headers: { 'x-admin-secret': currentAdminSecret }
         });
         const data = await res.json();
-        if (data.success) updateDashboardStatus(data);
-      } catch (e) {}
+        if (data.success) {
+          updateDashboardStatus(data);
+          if (data.cloudConnected) {
+            showToast('✅ Cloud Storage (Vercel Blob) is connected and active!', 'success');
+          } else if (data.isVercel) {
+            showToast('⚠️ Storage token not detected in active deployment. Please Redeploy in Vercel.', 'error');
+          }
+        }
+      } catch (e) {
+        showToast('Error refreshing status: ' + e.message, 'error');
+      }
     }
 
     // Logout

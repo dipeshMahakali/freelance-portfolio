@@ -8,6 +8,27 @@
 const fs = require('fs');
 const path = require('path');
 
+// Helper to discover any Vercel Blob read-write token across common naming variations
+function getBlobTokenInfo() {
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    return { token: process.env.BLOB_READ_WRITE_TOKEN.trim(), keyName: 'BLOB_READ_WRITE_TOKEN' };
+  }
+  if (process.env.VERCEL_BLOB_READ_WRITE_TOKEN) {
+    return { token: process.env.VERCEL_BLOB_READ_WRITE_TOKEN.trim(), keyName: 'VERCEL_BLOB_READ_WRITE_TOKEN' };
+  }
+
+  // Scan process.env for any key ending in _READ_WRITE_TOKEN or containing BLOB_READ_WRITE / BLOB_TOKEN
+  const envKeys = Object.keys(process.env);
+  for (const key of envKeys) {
+    const upper = key.toUpperCase();
+    if ((upper.endsWith('_READ_WRITE_TOKEN') || upper.includes('BLOB_READ_WRITE') || upper.includes('BLOB_TOKEN')) && process.env[key]) {
+      return { token: process.env[key].trim(), keyName: key };
+    }
+  }
+
+  return { token: null, keyName: null };
+}
+
 module.exports = async (req, res) => {
   // CORS Headers
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -17,14 +38,15 @@ module.exports = async (req, res) => {
     return res.status(200).end();
   }
 
-  const hasBlobToken = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+  const { token: blobToken } = getBlobTokenInfo();
+  const hasBlobToken = Boolean(blobToken);
 
   try {
     // 1. Try Vercel Blob (Cloud Storage)
     if (hasBlobToken) {
       try {
         const { list } = require('@vercel/blob');
-        const response = await list({ prefix: 'resumes/Dipesh_Patel_Resume' });
+        const response = await list({ prefix: 'resumes/Dipesh_Patel_Resume', token: blobToken });
         if (response.blobs && response.blobs.length > 0) {
           const sorted = response.blobs.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
           const latest = sorted[0];
